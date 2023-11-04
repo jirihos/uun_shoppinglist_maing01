@@ -1,0 +1,17 @@
+{
+  "product": "uun_shoppinglist_maing01",
+  "version": "0.1.0",
+  "license": "License Commercial",
+  "description": {
+    "en": "",
+    "cs": ""
+  },
+  "devkit": {
+    "development": {
+      "appBoxLocationUri": "----- VALUE REQUIRED -----",
+      "appDeploymentUri": null
+    }
+  },
+  "uun_shoppinglist_maing01-hi": {},
+  "uun_shoppinglist_maing01-server": {}
+}
