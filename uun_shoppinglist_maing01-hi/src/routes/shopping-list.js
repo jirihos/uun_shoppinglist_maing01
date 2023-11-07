@@ -1,11 +1,8 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useRoute } from "uu5g05";
-import { Button } from "uu5g05-elements";
+import { createVisualComponent, Utils } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
-
 import Config from "./config/config.js";
-import RouteBar from "../core/route-bar.js";
-import importLsi from "../lsi/import-lsi.js";
+import ShoppingListComponent from "../bricks/shopping-list.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -13,20 +10,17 @@ import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOn:css
 const Css = {
-  main: () =>
-    Config.Css.css({
-      textAlign: "center",
-      paddingTop: "20px",
-    }),
+  main: () => Config.Css.css({}),
 };
 //@@viewOff:css
 
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-let Home = createVisualComponent({
+let ShoppingList = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "Home",
+  uu5Tag: Config.TAG + "ShoppingList",
+  nestingLevel: ["areaCollection", "area"],
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -39,7 +33,6 @@ let Home = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const [, setRoute] = useRoute();
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -47,20 +40,16 @@ let Home = createVisualComponent({
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
-    return (
-      <div {...attrs}>
-        <Button colorScheme="warning" size="xl" onClick={() => setRoute("shoppingList")}>
-          Go to shopping list detail
-        </Button>
-      </div>
-    );
+    const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, ShoppingList);
+
+    return currentNestingLevel ? <ShoppingListComponent {...attrs} /> : null;
     //@@viewOff:render
   },
 });
 
-Home = withRoute(Home, { authenticated: true });
+ShoppingList = withRoute(ShoppingList, { authenticated: true });
 
 //@@viewOn:exports
-export { Home };
-export default Home;
+export { ShoppingList };
+export default ShoppingList;
 //@@viewOff:exports
