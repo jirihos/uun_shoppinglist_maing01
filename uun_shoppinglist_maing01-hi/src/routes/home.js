@@ -16,7 +16,6 @@ const Css = {
   main: () =>
     Config.Css.css({
       textAlign: "center",
-      paddingTop: "20px",
     }),
 };
 //@@viewOff:css
@@ -49,6 +48,7 @@ let Home = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     return (
       <div {...attrs}>
+        <RouteBar />
         <Button colorScheme="warning" size="xl" onClick={() => setRoute("shoppingList")}>
           Go to shopping list detail
         </Button>

@@ -34,6 +34,9 @@
     "about": "O aplikaci"
   },
 
+  "UunShoppinglist.Core.RouteBar": {
+    "home": "Domů"
+  },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Včetně splněných",
     "addItemBtn": "Přidat položku"

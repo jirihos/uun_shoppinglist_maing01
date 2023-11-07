@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { PropTypes, Utils, createVisualComponent, useState, useLsi } from "uu5g05";
+import { PropTypes, Utils, createVisualComponent, useState, useLsi, useAppBackground } from "uu5g05";
 import Uu5Elements, { Grid } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Uu5TilesElements from "uu5tilesg02-elements";
@@ -57,7 +57,12 @@ const ShoppingListItem = createVisualComponent({
     const { id, text, amount, unit, price, currency, completed } = data;
 
     const lsi = useLsi(importLsi, [ShoppingListItem.uu5Tag]);
+    const [background] = useAppBackground();
+    const darkMode = background === "dark";
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    // TODO: handleCheckbox
+    function handleCheckbox() {}
 
     // TODO: handleDelete
     function handleDelete() {}
@@ -74,7 +79,7 @@ const ShoppingListItem = createVisualComponent({
       <Uu5TilesElements.Tile {...attrs}>
         <Grid templateColumns="40px auto 60px" alignItems="center">
           <Grid.Item>
-            <Uu5Forms.Checkbox size="xl" box={false} width="10px" />
+            <Uu5Forms.Checkbox size="xl" box={darkMode} style={{ outline: "0" }} onChange={handleCheckbox} />
           </Grid.Item>
           <Grid.Item>
             <div className={Css.additionalText()}>
