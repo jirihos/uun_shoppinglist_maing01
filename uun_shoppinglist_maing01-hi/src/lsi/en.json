@@ -32,5 +32,15 @@
   "Menu": {
     "home": "Welcome",
     "about": "About Application"
+  },
+
+  "UunShoppinglist.Bricks.ShoppingList": {
+    "includeCompleted": "Include completed",
+    "addItemBtn": "Add an item"
+  },
+  "UunShoppinglist.Bricks.ShoppingListItem": {
+    "deleteHeader": "Delete this item?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

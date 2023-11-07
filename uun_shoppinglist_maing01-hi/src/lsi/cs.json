@@ -32,5 +32,15 @@
   "Menu": {
     "home": "Vítejte",
     "about": "O aplikaci"
+  },
+
+  "UunShoppinglist.Bricks.ShoppingList": {
+    "includeCompleted": "Včetně splněných",
+    "addItemBtn": "Přidat položku"
+  },
+  "UunShoppinglist.Bricks.ShoppingListItem": {
+    "deleteHeader": "Smazat tuto položku?",
+    "cancel": "Zrušit",
+    "delete": "Smazat"
   }
 }
