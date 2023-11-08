@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Lsi, useLsi, useRoute } from "uu5g05";
+import { createVisualComponent, Lsi, PropTypes, useLsi, useRoute } from "uu5g05";
 import Plus4U5App from "uu_plus4u5g02-app";
 
 import { Button } from "uu5g05-elements";
@@ -23,15 +23,20 @@ const RouteBar = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    hideHomeBtn: PropTypes.bool,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    hideHomeBtn: false,
+  },
   //@@viewOff:defaultProps
 
   render(props) {
     //@@viewOn:private
+    const { hideHomeBtn } = props;
     const lsi = useLsi(importLsi, [RouteBar.uu5Tag]);
     const [, setRoute] = useRoute();
 
@@ -58,7 +63,12 @@ const RouteBar = createVisualComponent({
     //@@viewOn:render
     return (
       <Plus4U5App.PositionBar actionList={actionList} view="short" {...props}>
-        <Button colorScheme="dark-green" onClick={() => setRoute("home")}>
+        <Button
+          icon="uugds-chevron-left"
+          colorScheme="dark-green"
+          hidden={hideHomeBtn}
+          onClick={() => setRoute("home")}
+        >
           {lsi.home}
         </Button>
       </Plus4U5App.PositionBar>

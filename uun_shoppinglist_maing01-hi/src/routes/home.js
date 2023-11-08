@@ -48,7 +48,7 @@ let Home = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     return (
       <div {...attrs}>
-        <RouteBar />
+        <RouteBar hideHomeBtn={true} />
         <Button colorScheme="warning" size="xl" onClick={() => setRoute("shoppingList", { id: "123" })}>
           Go to shopping list detail
         </Button>
