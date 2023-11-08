@@ -5,6 +5,7 @@ import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import ShoppingListItem from "./shopping-list-item.js";
 import importLsi from "../lsi/import-lsi.js";
+import { useShoppingList } from "../contexts/shopping-list-context.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -54,41 +55,8 @@ const ShoppingList = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    // TODO: remove
-    let shoppingList = {
-      name: "Test",
-      itemList: [
-        {
-          id: "1",
-          text: "1",
-          completed: false,
-          amount: 10,
-          unit: "ks",
-          price: 30,
-          currency: "Kč",
-        },
-        {
-          id: "2",
-          text: "2",
-          completed: true,
-          amount: 10,
-          unit: "ks",
-          price: 30,
-          currency: "Kč",
-        },
-        {
-          id: "3",
-          text: "3",
-          completed: false,
-          amount: 10,
-          unit: "ks",
-          price: 30,
-          currency: "Kč",
-        },
-      ],
-    };
-
     const lsi = useLsi(importLsi, [ShoppingList.uu5Tag]);
+    const { filteredShoppingList, includeCompleted, setIncludeCompleted } = useShoppingList();
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
     //@@viewOff:private
 
@@ -103,12 +71,16 @@ const ShoppingList = createVisualComponent({
       <div {...attrs}>
         <div className={Css.nameDiv()}>
           <Uu5Elements.Text category="expose" segment="default" type="hero">
-            {shoppingList.name}
+            {filteredShoppingList.name}
           </Uu5Elements.Text>
           <Uu5Elements.Button icon="uugds-pencil" className={Css.editBtn()} />
         </div>
         <div>
-          <Uu5Elements.Toggle label={lsi.includeCompleted} />
+          <Uu5Elements.Toggle
+            label={lsi.includeCompleted}
+            value={includeCompleted}
+            onChange={() => setIncludeCompleted(!includeCompleted)}
+          />
         </div>
         <div className={Css.addItemBtnDiv()}>
           <Uu5Elements.Button
@@ -120,7 +92,7 @@ const ShoppingList = createVisualComponent({
           </Uu5Elements.Button>
         </div>
 
-        <Uu5TilesElements.Grid data={shoppingList.itemList} verticalGap={10}>
+        <Uu5TilesElements.Grid data={filteredShoppingList.itemList} verticalGap={10}>
           <ShoppingListItem />
         </Uu5TilesElements.Grid>
 

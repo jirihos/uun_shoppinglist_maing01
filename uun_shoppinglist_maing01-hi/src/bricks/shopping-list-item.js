@@ -79,7 +79,13 @@ const ShoppingListItem = createVisualComponent({
       <Uu5TilesElements.Tile {...attrs}>
         <Grid templateColumns="40px auto 60px" alignItems="center">
           <Grid.Item>
-            <Uu5Forms.Checkbox size="xl" box={darkMode} style={{ outline: "0" }} onChange={handleCheckbox} />
+            <Uu5Forms.Checkbox
+              size="xl"
+              box={darkMode}
+              style={{ outline: "0" }}
+              value={completed}
+              onChange={handleCheckbox}
+            />
           </Grid.Item>
           <Grid.Item>
             <div className={Css.additionalText()}>
