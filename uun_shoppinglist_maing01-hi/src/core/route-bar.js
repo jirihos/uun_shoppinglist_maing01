@@ -58,7 +58,7 @@ const RouteBar = createVisualComponent({
     //@@viewOn:render
     return (
       <Plus4U5App.PositionBar actionList={actionList} view="short" {...props}>
-        <Button colorScheme="created" onClick={() => setRoute("home")}>
+        <Button colorScheme="dark-green" onClick={() => setRoute("home")}>
           {lsi.home}
         </Button>
       </Plus4U5App.PositionBar>

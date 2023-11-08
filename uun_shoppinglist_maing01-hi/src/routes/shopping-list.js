@@ -1,9 +1,12 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils } from "uu5g05";
+import { createVisualComponent, useLsi, useRoute, Utils } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import ShoppingListComponent from "../bricks/shopping-list.js";
 import RouteBar from "../core/route-bar.js";
+import ShoppingListProvider from "../bricks/providers/shopping-list-provider.js";
+import Error from "../bricks/error.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -34,6 +37,10 @@ let ShoppingList = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
+    const [route] = useRoute();
+    let shoppingListId = route.params?.id;
+
+    let lsi = useLsi(importLsi, ["UunShoppinglist.Routes.ShoppingList"]);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -46,7 +53,14 @@ let ShoppingList = createVisualComponent({
     return currentNestingLevel ? (
       <div {...attrs}>
         <RouteBar />
-        <ShoppingListComponent />
+
+        {shoppingListId ? (
+          <ShoppingListProvider shoppingListId={shoppingListId}>
+            <ShoppingListComponent />
+          </ShoppingListProvider>
+        ) : (
+          <Error title={lsi.paramErrorTitle}>{lsi.paramError}</Error>
+        )}
       </div>
     ) : null;
     //@@viewOff:render

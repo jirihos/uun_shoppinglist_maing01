@@ -49,7 +49,7 @@ let Home = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar />
-        <Button colorScheme="warning" size="xl" onClick={() => setRoute("shoppingList")}>
+        <Button colorScheme="warning" size="xl" onClick={() => setRoute("shoppingList", { id: "123" })}>
           Go to shopping list detail
         </Button>
       </div>

@@ -34,6 +34,10 @@
     "about": "O aplikaci"
   },
 
+  "UunShoppinglist.Routes.ShoppingList": {
+    "paramErrorTitle": "Chyba",
+    "paramError": "Chybí parametr ID nákupního seznamu."
+  },
   "UunShoppinglist.Core.RouteBar": {
     "home": "Domů"
   },

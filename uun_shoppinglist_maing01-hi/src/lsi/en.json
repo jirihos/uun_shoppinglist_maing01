@@ -34,6 +34,10 @@
     "about": "About Application"
   },
 
+  "UunShoppinglist.Routes.ShoppingList": {
+    "paramErrorTitle": "Error",
+    "paramError": "Shopping list ID parameter is missing."
+  },
   "UunShoppinglist.Core.RouteBar": {
     "home": "Home"
   },
