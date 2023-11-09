@@ -54,5 +54,9 @@
     "owner": "Vlastník",
     "member": "Člen",
     "addMemberBtn": "Přidat člena"
+  },
+  "UunShoppinglist.Bricks.Modals.EditShoppingListNameModal": {
+    "modalTitle": "Upravit název nákupního seznamu",
+    "newNameLabel": "Nový název"
   }
 }

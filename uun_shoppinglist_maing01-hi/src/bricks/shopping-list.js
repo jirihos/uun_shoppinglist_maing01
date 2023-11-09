@@ -5,6 +5,7 @@ import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import ShoppingListItem from "./shopping-list-item.js";
 import { useShoppingList } from "../contexts/shopping-list-context.js";
+import EditShoppingListNameModal from "./modals/edit-shopping-list-name-modal.js";
 import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -50,7 +51,8 @@ const ShoppingList = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const lsi = useLsi(importLsi, [ShoppingList.uu5Tag]);
-    const { filteredShoppingList, includeCompleted, setIncludeCompleted } = useShoppingList();
+    const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename } = useShoppingList();
+    const [editNameModalOpen, setEditNameModalOpen] = useState(false);
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
     //@@viewOff:private
 
@@ -65,7 +67,12 @@ const ShoppingList = createVisualComponent({
       <div {...attrs}>
         <div>
           <Uu5Elements.Text category="expose" segment="default" type="hero">
-            {filteredShoppingList.name} <Uu5Elements.Button icon="uugds-pencil" className={Css.editNameBtn()} />
+            {filteredShoppingList.name}{" "}
+            <Uu5Elements.Button
+              icon="uugds-pencil"
+              onClick={() => setEditNameModalOpen(true)}
+              className={Css.editNameBtn()}
+            />
           </Uu5Elements.Text>
         </div>
         <div>
@@ -89,7 +96,15 @@ const ShoppingList = createVisualComponent({
           {(props) => <ShoppingListItem {...props} />}
         </Uu5TilesElements.Grid>
 
-        {/* TODO: edit name modal */}
+        {editNameModalOpen && (
+          <EditShoppingListNameModal
+            onSubmit={(name) => {
+              setEditNameModalOpen(false);
+              rename(name);
+            }}
+            onClose={() => setEditNameModalOpen(false)}
+          />
+        )}
         {/* TODO: add item modal */}
       </div>
     ) : null;
