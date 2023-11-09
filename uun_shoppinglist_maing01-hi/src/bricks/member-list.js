@@ -6,6 +6,7 @@ import Config from "./config/config.js";
 import MemberTile from "./member-tile.js";
 import { useShoppingList } from "../contexts/shopping-list-context.js";
 import importLsi from "../lsi/import-lsi.js";
+import AddMemberModal from "./modals/add-member-modal.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -45,7 +46,7 @@ const MemberList = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const lsi = useLsi(importLsi, [MemberList.uu5Tag]);
-    const { filteredShoppingList } = useShoppingList();
+    const { filteredShoppingList, addMember } = useShoppingList();
 
     let memberData = useMemo(() => {
       let mappedMembers = filteredShoppingList.memberUuIdentityList.map((uuIdentity) => {
@@ -79,6 +80,16 @@ const MemberList = createVisualComponent({
         >
           {lsi.addMemberBtn}
         </Uu5Elements.Button>
+
+        {addMemberModalOpen && (
+          <AddMemberModal
+            onSubmit={(uuIdentity) => {
+              setAddMemberModalOpen(false);
+              addMember(uuIdentity);
+            }}
+            onClose={() => setAddMemberModalOpen(false)}
+          />
+        )}
       </div>
     ) : null;
     //@@viewOff:render

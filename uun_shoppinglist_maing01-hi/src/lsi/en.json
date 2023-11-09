@@ -68,5 +68,9 @@
     "currencyLabel": "Currency",
     "amountUnitError": "Fill both amount and unit, or none.",
     "priceCurrencyError": "Fill both total price and currency, or none."
+  },
+  "UunShoppinglist.Bricks.Modals.AddMemberModal": {
+    "modalTitle": "Add a member",
+    "personSelectLabel": "Plus4U user"
   }
 }

@@ -68,5 +68,9 @@
     "currencyLabel": "Měna",
     "amountUnitError": "Vyplňte množství i jednotku, nebo ani jedno.",
     "priceCurrencyError": "Vyplňte celkovou cenu i měnu, nebo ani jedno."
+  },
+  "UunShoppinglist.Bricks.Modals.AddMemberModal": {
+    "modalTitle": "Přidat člena",
+    "personSelectLabel": "Plus4U uživatel"
   }
 }

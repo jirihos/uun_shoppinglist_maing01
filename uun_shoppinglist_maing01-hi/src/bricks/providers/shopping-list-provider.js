@@ -123,6 +123,7 @@ const ShoppingListProvider = createComponent({
       },
 
       addMember: (uuIdentity) => {
+        if (shoppingList.memberUuIdentityList.includes(uuIdentity)) return;
         setShoppingList(({ ...currentShoppingList }) => {
           currentShoppingList.memberUuIdentityList.push(uuIdentity);
           return currentShoppingList;
