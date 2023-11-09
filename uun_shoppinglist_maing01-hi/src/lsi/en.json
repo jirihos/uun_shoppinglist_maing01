@@ -49,5 +49,10 @@
     "deleteHeader": "Delete this item?",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "UunShoppinglist.Bricks.MemberList": {
+    "owner": "Owner",
+    "member": "Member",
+    "addMemberBtn": "Add a member"
   }
 }

@@ -2,10 +2,10 @@
 import { createVisualComponent, useLsi, useRoute, Utils } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
-import ShoppingListComponent from "../bricks/shopping-list.js";
 import RouteBar from "../core/route-bar.js";
 import ShoppingListProvider from "../bricks/providers/shopping-list-provider.js";
 import Error from "../bricks/error.js";
+import DetailPageLayout from "../bricks/layouts/detail-page-layout.js";
 import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -56,7 +56,7 @@ let ShoppingList = createVisualComponent({
 
         {shoppingListId ? (
           <ShoppingListProvider shoppingListId={shoppingListId}>
-            <ShoppingListComponent />
+            <DetailPageLayout />
           </ShoppingListProvider>
         ) : (
           <Error title={lsi.paramErrorTitle}>{lsi.paramError}</Error>

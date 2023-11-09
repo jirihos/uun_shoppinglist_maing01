@@ -49,5 +49,10 @@
     "deleteHeader": "Smazat tuto položku?",
     "cancel": "Zrušit",
     "delete": "Smazat"
+  },
+  "UunShoppinglist.Bricks.MemberList": {
+    "owner": "Vlastník",
+    "member": "Člen",
+    "addMemberBtn": "Přidat člena"
   }
 }

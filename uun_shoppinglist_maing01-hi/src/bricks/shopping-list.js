@@ -4,8 +4,8 @@ import Uu5Elements from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import ShoppingListItem from "./shopping-list-item.js";
-import importLsi from "../lsi/import-lsi.js";
 import { useShoppingList } from "../contexts/shopping-list-context.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -18,15 +18,9 @@ const Css = {
       padding: "10px",
       textAlign: "center",
     }),
-  nameDiv: () =>
+  editNameBtn: () =>
     Config.Css.css({
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }),
-  editBtn: () =>
-    Config.Css.css({
-      marginLeft: "16px",
+      verticalAlign: "middle",
     }),
   addItemBtnDiv: () =>
     Config.Css.css({
@@ -69,11 +63,10 @@ const ShoppingList = createVisualComponent({
 
     return currentNestingLevel ? (
       <div {...attrs}>
-        <div className={Css.nameDiv()}>
+        <div>
           <Uu5Elements.Text category="expose" segment="default" type="hero">
-            {filteredShoppingList.name}
+            {filteredShoppingList.name} <Uu5Elements.Button icon="uugds-pencil" className={Css.editNameBtn()} />
           </Uu5Elements.Text>
-          <Uu5Elements.Button icon="uugds-pencil" className={Css.editBtn()} />
         </div>
         <div>
           <Uu5Elements.Toggle
@@ -92,8 +85,8 @@ const ShoppingList = createVisualComponent({
           </Uu5Elements.Button>
         </div>
 
-        <Uu5TilesElements.Grid data={filteredShoppingList.itemList} verticalGap={10}>
-          <ShoppingListItem />
+        <Uu5TilesElements.Grid data={filteredShoppingList.itemList} itemIdentifier="uuIdentity" verticalGap={10}>
+          {(props) => <ShoppingListItem {...props} />}
         </Uu5TilesElements.Grid>
 
         {/* TODO: edit name modal */}

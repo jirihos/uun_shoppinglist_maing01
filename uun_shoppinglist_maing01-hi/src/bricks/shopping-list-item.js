@@ -41,7 +41,7 @@ const ShoppingListItem = createVisualComponent({
       price: PropTypes.number,
       currency: PropTypes.string,
       completed: PropTypes.bool.isRequired,
-    }),
+    }).isRequired,
   },
   //@@viewOff:propTypes
 

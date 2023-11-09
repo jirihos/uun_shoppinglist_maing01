@@ -10,7 +10,7 @@ const initialShoppingList = {
   name: "Ukázkový nákupní seznam",
   archived: false,
   ownerUuIdentity: "3987-144-5699-0000",
-  memberUuIdentityList: ["1-1", "2-2", "3-3"],
+  memberUuIdentityList: ["784-3673-7253-0000"],
   itemList: [
     {
       id: "204fb43da61c4df7b1ec90b6",
