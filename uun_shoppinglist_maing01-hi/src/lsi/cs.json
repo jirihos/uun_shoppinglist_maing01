@@ -58,5 +58,15 @@
   "UunShoppinglist.Bricks.Modals.EditShoppingListNameModal": {
     "modalTitle": "Upravit název nákupního seznamu",
     "newNameLabel": "Nový název"
+  },
+  "UunShoppinglist.Bricks.Modals.AddItemModal": {
+    "modalTitle": "Přidat položku",
+    "textLabel": "Text",
+    "amountLabel": "Množství",
+    "unitLabel": "Jednotka",
+    "totalPriceLabel": "Celková cena",
+    "currencyLabel": "Měna",
+    "amountUnitError": "Vyplňte množství i jednotku, nebo ani jedno.",
+    "priceCurrencyError": "Vyplňte celkovou cenu i měnu, nebo ani jedno."
   }
 }

@@ -97,6 +97,7 @@ const ShoppingListProvider = createComponent({
       },
 
       addItem: (item) => {
+        item.id = Math.floor(Math.random() * 100000000).toString();
         setShoppingList(({ ...currentShoppingList }) => {
           currentShoppingList.itemList.push(item);
           return currentShoppingList;

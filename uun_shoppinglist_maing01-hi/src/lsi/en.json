@@ -58,5 +58,15 @@
   "UunShoppinglist.Bricks.Modals.EditShoppingListNameModal": {
     "modalTitle": "Edit shopping list name",
     "newNameLabel": "New name"
+  },
+  "UunShoppinglist.Bricks.Modals.AddItemModal": {
+    "modalTitle": "Add an item",
+    "textLabel": "Text",
+    "amountLabel": "Amount",
+    "unitLabel": "Unit",
+    "totalPriceLabel": "Total price",
+    "currencyLabel": "Currency",
+    "amountUnitError": "Fill both amount and unit, or none.",
+    "priceCurrencyError": "Fill both total price and currency, or none."
   }
 }

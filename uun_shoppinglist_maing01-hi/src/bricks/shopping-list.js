@@ -6,6 +6,7 @@ import Config from "./config/config.js";
 import ShoppingListItem from "./shopping-list-item.js";
 import { useShoppingList } from "../contexts/shopping-list-context.js";
 import EditShoppingListNameModal from "./modals/edit-shopping-list-name-modal.js";
+import AddItemModal from "./modals/add-item-modal.js";
 import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -51,7 +52,7 @@ const ShoppingList = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const lsi = useLsi(importLsi, [ShoppingList.uu5Tag]);
-    const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename } = useShoppingList();
+    const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename, addItem } = useShoppingList();
     const [editNameModalOpen, setEditNameModalOpen] = useState(false);
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
     //@@viewOff:private
@@ -105,7 +106,16 @@ const ShoppingList = createVisualComponent({
             onClose={() => setEditNameModalOpen(false)}
           />
         )}
-        {/* TODO: add item modal */}
+        {addItemModalOpen && (
+          <AddItemModal
+            onSubmit={(item) => {
+              item.completed = false;
+              addItem(item);
+              setAddItemModalOpen(false);
+            }}
+            onClose={() => setAddItemModalOpen(false)}
+          />
+        )}
       </div>
     ) : null;
     //@@viewOff:render
