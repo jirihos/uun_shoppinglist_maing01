@@ -1,6 +1,6 @@
 //@@viewOn:imports
-import { PropTypes, Utils, createVisualComponent, useState, useLsi } from "uu5g05";
-import Uu5Elements, { Grid } from "uu5g05-elements";
+import { PropTypes, Utils, createVisualComponent, useState, useLsi, useAppBackground } from "uu5g05";
+import Uu5Elements, { Grid, UuGds } from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import ItemCheckbox from "./item-checkbox.js";
@@ -9,6 +9,7 @@ import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const darkColor = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter"]);
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -55,6 +56,9 @@ const ShoppingListItem = createVisualComponent({
     const { id, text, amount, unit, totalPrice, currency, completed } = data;
 
     const lsi = useLsi(importLsi, [ShoppingListItem.uu5Tag]);
+    const [background] = useAppBackground();
+    const darkMode = background === "dark";
+
     const { setCompleted, deleteItem } = useShoppingList();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -108,6 +112,7 @@ const ShoppingListItem = createVisualComponent({
         </Grid>
 
         <Uu5Elements.Dialog
+          style={{ backgroundColor: darkMode && darkColor }} // fixes a possible bug in uu5
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
           header={lsi.deleteHeader}

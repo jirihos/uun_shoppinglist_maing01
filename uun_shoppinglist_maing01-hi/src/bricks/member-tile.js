@@ -1,6 +1,6 @@
 //@@viewOn:imports
-import { PropTypes, createVisualComponent, Utils, useState, useLsi } from "uu5g05";
-import Uu5Elements, { Button, Grid } from "uu5g05-elements";
+import { PropTypes, createVisualComponent, Utils, useState, useLsi, useAppBackground } from "uu5g05";
+import Uu5Elements, { Button, Grid, UuGds } from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
@@ -9,6 +9,7 @@ import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const darkColor = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter"]);
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -53,6 +54,9 @@ const MemberTile = createVisualComponent({
     const { uuIdentity, subtitle, showRemoveBtn } = props.data;
 
     const lsi = useLsi(importLsi, [MemberTile.uu5Tag]);
+    const [background] = useAppBackground();
+    const darkMode = background === "dark";
+
     const { removeMember } = useShoppingList();
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
@@ -91,6 +95,7 @@ const MemberTile = createVisualComponent({
         </Grid>
 
         <Uu5Elements.Dialog
+          style={{ backgroundColor: darkMode && darkColor }} // fixes a possible bug in uu5
           open={removeDialogOpen}
           onClose={() => setRemoveDialogOpen(false)}
           header={lsi.removeHeader}
