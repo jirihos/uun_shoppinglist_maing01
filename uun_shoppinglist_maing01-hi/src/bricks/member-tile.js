@@ -9,7 +9,7 @@ import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
-const darkColor = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter"]);
+const DARK_COLOR = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter"]);
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -95,7 +95,7 @@ const MemberTile = createVisualComponent({
         </Grid>
 
         <Uu5Elements.Dialog
-          style={{ backgroundColor: darkMode && darkColor }} // fixes a possible bug in uu5
+          style={{ backgroundColor: darkMode && DARK_COLOR }} // fixes a possible bug in uu5
           open={removeDialogOpen}
           onClose={() => setRemoveDialogOpen(false)}
           header={lsi.removeHeader}

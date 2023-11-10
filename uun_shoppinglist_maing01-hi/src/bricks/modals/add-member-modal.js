@@ -8,7 +8,7 @@ import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
-const peopleBaseUri = Environment.get(
+const PEOPLE_BASE_URI = Environment.get(
   "uu_plus4u5g02_peopleBaseUri",
   "https://uuapp-dev.plus4u.net/uu-plus4upeople-maing01/0000004723544d1ab0b74000d9f7671c"
 );
@@ -74,7 +74,7 @@ const AddMemberModal = createVisualComponent({
         >
           <Uu5Forms.Form.View>
             <UuPlus4UPeopleForms.PersonalCard.FormSelect
-              baseUri={peopleBaseUri}
+              baseUri={PEOPLE_BASE_URI}
               name="person"
               label={lsi.personSelectLabel}
               required
