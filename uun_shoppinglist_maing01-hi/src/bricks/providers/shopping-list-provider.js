@@ -1,42 +1,10 @@
 //@@viewOn:imports
-import { PropTypes, createComponent, useMemo, useState } from "uu5g05";
+import { PropTypes, createComponent, useMemo, useSession, useState } from "uu5g05";
 import Config from "./config/config.js";
 import Context from "../../contexts/shopping-list-context.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
-const initialShoppingList = {
-  id: "c3a2faebc331484ba8477923",
-  name: "Ukázkový nákupní seznam",
-  archived: false,
-  ownerUuIdentity: "3987-144-5699-0000",
-  memberUuIdentityList: ["784-3673-7253-0000"],
-  itemList: [
-    {
-      id: "204fb43da61c4df7b1ec90b6",
-      text: "Jogurt",
-      amount: 1,
-      unit: "ks",
-      totalPrice: 30,
-      currency: "Kč",
-      completed: false,
-    },
-    {
-      id: "204fb43da61c4df7b1ec90b5",
-      text: "Druhá položka",
-      amount: 10,
-      unit: "ks",
-      totalPrice: 100,
-      currency: "Kč",
-      completed: true,
-    },
-    {
-      id: "204fb43da61c4df7b1ec90b4",
-      text: "Třetí položka",
-      completed: false,
-    },
-  ],
-};
 //@@viewOff:constants
 
 //@@viewOn:helpers
@@ -61,6 +29,21 @@ const ShoppingListProvider = createComponent({
     //@@viewOn:private
     const { shoppingListId, children } = props;
 
+    // find a shopping list by id
+    let initialShoppingList = document.initialShoppingLists.find((shoppingList) => shoppingList.id === shoppingListId);
+
+    // simulate errors from calls
+    const [state, setState] = useState("ready");
+    const [errorData, setErrorData] = useState();
+    const { identity } = useSession();
+    if (!initialShoppingList && state === "ready") {
+      setState("error");
+      setErrorData({ code: "shoppingListNotFound" });
+    }
+
+    // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
+    initialShoppingList = JSON.parse(JSON.stringify(initialShoppingList));
+
     const [includeCompleted, setIncludeCompleted] = useState(false);
     const [shoppingList, setShoppingList] = useState(initialShoppingList);
 
@@ -76,12 +59,22 @@ const ShoppingListProvider = createComponent({
         return shoppingList;
       }
     }, [shoppingList, includeCompleted]);
+
+    // simulate errors from calls
+    if (
+      shoppingList.ownerUuIdentity !== identity.uuIdentity &&
+      !shoppingList.memberUuIdentityList.includes(identity.uuIdentity) &&
+      state === "ready"
+    ) {
+      setState("error");
+      setErrorData({ code: "shoppingListNoAccess" });
+    }
     //@@viewOff:private
 
     //@@viewOn:interface
     const contextValue = {
-      state: "ready",
-      errorData: undefined,
+      state,
+      errorData,
       filteredShoppingList,
       includeCompleted,
 
