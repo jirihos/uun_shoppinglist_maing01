@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, useLsi, useState } from "uu5g05";
+import { createVisualComponent, Utils, useLsi, useState, useSession } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
@@ -55,6 +55,9 @@ const ShoppingList = createVisualComponent({
     const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename, addItem } = useShoppingList();
     const [editNameModalOpen, setEditNameModalOpen] = useState(false);
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
+
+    const { identity } = useSession();
+    const isOwner = filteredShoppingList.ownerUuIdentity === identity.uuIdentity;
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -69,11 +72,13 @@ const ShoppingList = createVisualComponent({
         <div>
           <Uu5Elements.Text category="expose" segment="default" type="hero">
             {filteredShoppingList.name}{" "}
-            <Uu5Elements.Button
-              icon="uugds-pencil"
-              onClick={() => setEditNameModalOpen(true)}
-              className={Css.editNameBtn()}
-            />
+            {isOwner && (
+              <Uu5Elements.Button
+                icon="uugds-pencil"
+                onClick={() => setEditNameModalOpen(true)}
+                className={Css.editNameBtn()}
+              />
+            )}
           </Uu5Elements.Text>
         </div>
         <div>

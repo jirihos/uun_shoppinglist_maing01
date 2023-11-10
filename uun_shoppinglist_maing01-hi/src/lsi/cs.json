@@ -41,6 +41,12 @@
   "UunShoppinglist.Core.RouteBar": {
     "home": "Domů"
   },
+  "UunShoppinglist.Bricks.Layouts.DetailPageLayout": {
+    "notFoundTitle": "Nenalezeno",
+    "notFound": "Nákupní seznam nebyl nalezen.",
+    "noAccessTitle": "Nemáte oprávnění",
+    "noAccess": "Nejste vlastníkem nebo členem nákupního seznamu."
+  },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Včetně splněných",
     "addItemBtn": "Přidat položku"

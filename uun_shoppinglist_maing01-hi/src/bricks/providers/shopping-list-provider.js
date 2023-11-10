@@ -36,16 +36,20 @@ const ShoppingListProvider = createComponent({
     const [state, setState] = useState("ready");
     const [errorData, setErrorData] = useState();
     const { identity } = useSession();
-    if (!initialShoppingList && state === "ready") {
+    if (state === "ready" && !initialShoppingList) {
       setState("error");
       setErrorData({ code: "shoppingListNotFound" });
     }
 
-    // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
-    initialShoppingList = JSON.parse(JSON.stringify(initialShoppingList));
-
     const [includeCompleted, setIncludeCompleted] = useState(false);
-    const [shoppingList, setShoppingList] = useState(initialShoppingList);
+    const [shoppingList, setShoppingList] = useState(() => {
+      if (initialShoppingList) {
+        // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
+        return JSON.parse(JSON.stringify(initialShoppingList));
+      } else {
+        return undefined;
+      }
+    });
 
     // filter items based on includeCompleted
     let filteredShoppingList = useMemo(() => {
@@ -62,9 +66,10 @@ const ShoppingListProvider = createComponent({
 
     // simulate errors from calls
     if (
+      shoppingList &&
+      state === "ready" &&
       shoppingList.ownerUuIdentity !== identity.uuIdentity &&
-      !shoppingList.memberUuIdentityList.includes(identity.uuIdentity) &&
-      state === "ready"
+      !shoppingList.memberUuIdentityList.includes(identity.uuIdentity)
     ) {
       setState("error");
       setErrorData({ code: "shoppingListNoAccess" });

@@ -1,9 +1,12 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils } from "uu5g05";
+import { createVisualComponent, Utils, useLsi } from "uu5g05";
 import { Line } from "uu5g05-elements";
 import Config from "./config/config.js";
 import ShoppingList from "../shopping-list.js";
 import MemberList from "../member-list.js";
+import { useShoppingList } from "../../contexts/shopping-list-context.js";
+import Error from "../error.js";
+import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -34,6 +37,8 @@ const DetailPageLayout = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
+    const lsi = useLsi(importLsi, [DetailPageLayout.uu5Tag]);
+    const { state, errorData } = useShoppingList();
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -45,9 +50,21 @@ const DetailPageLayout = createVisualComponent({
 
     return currentNestingLevel ? (
       <div {...attrs}>
-        <ShoppingList />
-        <Line margin="12px 0" />
-        <MemberList />
+        {state === "error" && errorData.code === "shoppingListNotFound" && (
+          <Error title={lsi.notFoundTitle}>{lsi.notFound}</Error>
+        )}
+
+        {state === "error" && errorData.code === "shoppingListNoAccess" && (
+          <Error title={lsi.noAccessTitle}>{lsi.noAccess}</Error>
+        )}
+
+        {state === "ready" && (
+          <>
+            <ShoppingList />
+            <Line margin="12px 0" />
+            <MemberList />
+          </>
+        )}
       </div>
     ) : null;
     //@@viewOff:render

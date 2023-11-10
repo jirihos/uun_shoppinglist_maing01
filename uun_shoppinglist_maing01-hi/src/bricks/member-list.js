@@ -1,12 +1,12 @@
 //@@viewOn:imports
-import { createVisualComponent, useLsi, useMemo, useState, Utils } from "uu5g05";
+import { createVisualComponent, useLsi, useMemo, useState, Utils, useSession } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import MemberTile from "./member-tile.js";
 import { useShoppingList } from "../contexts/shopping-list-context.js";
-import importLsi from "../lsi/import-lsi.js";
 import AddMemberModal from "./modals/add-member-modal.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -48,13 +48,17 @@ const MemberList = createVisualComponent({
     const lsi = useLsi(importLsi, [MemberList.uu5Tag]);
     const { filteredShoppingList, addMember } = useShoppingList();
 
+    const { identity } = useSession();
+    const isOwner = filteredShoppingList.ownerUuIdentity === identity.uuIdentity;
+
     let memberData = useMemo(() => {
       let mappedMembers = filteredShoppingList.memberUuIdentityList.map((uuIdentity) => {
-        return { uuIdentity, subtitle: lsi.member };
+        let showRemoveBtn = isOwner || uuIdentity === identity.uuIdentity;
+        return { uuIdentity, subtitle: lsi.member, showRemoveBtn };
       });
       mappedMembers.unshift({ uuIdentity: filteredShoppingList.ownerUuIdentity, subtitle: lsi.owner });
       return mappedMembers;
-    }, [filteredShoppingList, lsi]);
+    }, [filteredShoppingList, lsi, identity.uuIdentity, isOwner]);
 
     const [addMemberModalOpen, setAddMemberModalOpen] = useState(false);
     //@@viewOff:private
@@ -72,14 +76,16 @@ const MemberList = createVisualComponent({
           {(props) => <MemberTile {...props} />}
         </Uu5TilesElements.Grid>
 
-        <Uu5Elements.Button
-          onClick={() => setAddMemberModalOpen(true)}
-          colorScheme="primary"
-          significance="highlighted"
-          className={Css.addMemberBtn()}
-        >
-          {lsi.addMemberBtn}
-        </Uu5Elements.Button>
+        {isOwner && (
+          <Uu5Elements.Button
+            onClick={() => setAddMemberModalOpen(true)}
+            colorScheme="primary"
+            significance="highlighted"
+            className={Css.addMemberBtn()}
+          >
+            {lsi.addMemberBtn}
+          </Uu5Elements.Button>
+        )}
 
         {addMemberModalOpen && (
           <AddMemberModal
