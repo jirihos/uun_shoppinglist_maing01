@@ -61,6 +61,11 @@
     "member": "Člen",
     "addMemberBtn": "Přidat člena"
   },
+  "UunShoppinglist.Bricks.MemberTile": {
+    "removeHeader": "Odebrat člena?",
+    "cancel": "Zrušit",
+    "remove": "Odebrat"
+  },
   "UunShoppinglist.Bricks.Modals.EditShoppingListNameModal": {
     "modalTitle": "Upravit název nákupního seznamu",
     "newNameLabel": "Nový název"

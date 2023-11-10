@@ -1,9 +1,11 @@
 //@@viewOn:imports
-import { PropTypes, createVisualComponent, Utils, useState } from "uu5g05";
-import { Button, Grid } from "uu5g05-elements";
+import { PropTypes, createVisualComponent, Utils, useState, useLsi } from "uu5g05";
+import Uu5Elements, { Button, Grid } from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
+import { useShoppingList } from "../contexts/shopping-list-context.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -15,6 +17,10 @@ const Css = {
   personItem: () =>
     Config.Css.css({
       margin: "2px",
+    }),
+  personItemDialog: () =>
+    Config.Css.css({
+      margin: "12px 0",
     }),
 };
 //@@viewOff:css
@@ -46,7 +52,13 @@ const MemberTile = createVisualComponent({
     //@@viewOn:private
     const { uuIdentity, subtitle, showRemoveBtn } = props.data;
 
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const lsi = useLsi(importLsi, [MemberTile.uu5Tag]);
+    const { removeMember } = useShoppingList();
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+
+    function handleRemove() {
+      removeMember(uuIdentity);
+    }
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -73,10 +85,30 @@ const MemberTile = createVisualComponent({
               colorScheme="important"
               size="xl"
               hidden={!showRemoveBtn}
-              onClick={() => setDeleteDialogOpen(true)}
+              onClick={() => setRemoveDialogOpen(true)}
             />
           </Grid.Item>
         </Grid>
+
+        <Uu5Elements.Dialog
+          open={removeDialogOpen}
+          onClose={() => setRemoveDialogOpen(false)}
+          header={lsi.removeHeader}
+          info={<Plus4U5Elements.PersonItem uuIdentity={uuIdentity} size="l" className={Css.personItemDialog()} />}
+          actionDirection="horizontal"
+          actionList={[
+            {
+              children: lsi.cancel,
+              significance: "distinct",
+            },
+            {
+              children: lsi.remove,
+              onClick: handleRemove,
+              colorScheme: "red",
+              significance: "highlighted",
+            },
+          ]}
+        />
       </Uu5TilesElements.Tile>
     ) : null;
     //@@viewOff:render
