@@ -41,7 +41,6 @@ const ShoppingListProvider = createComponent({
       setErrorData({ code: "shoppingListNotFound" });
     }
 
-    const [includeCompleted, setIncludeCompleted] = useState(false);
     const [shoppingList, setShoppingList] = useState(() => {
       if (initialShoppingList) {
         // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
@@ -50,6 +49,7 @@ const ShoppingListProvider = createComponent({
         return undefined;
       }
     });
+    const [includeCompleted, setIncludeCompleted] = useState(shoppingList?.archived || false);
 
     // filter items based on includeCompleted
     let filteredShoppingList = useMemo(() => {
