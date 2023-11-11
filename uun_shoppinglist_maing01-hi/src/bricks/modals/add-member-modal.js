@@ -78,6 +78,7 @@ const AddMemberModal = createVisualComponent({
               name="person"
               label={lsi.personSelectLabel}
               required
+              autoFocus
             />
           </Uu5Forms.Form.View>
         </Uu5Elements.Modal>

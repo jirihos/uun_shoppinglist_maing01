@@ -80,7 +80,7 @@ const AddItemModal = createVisualComponent({
           <Uu5Forms.Form.View>
             <Grid templateAreas="text text, amount unit, totalPrice currency">
               <Grid.Item gridArea="text">
-                <Uu5Forms.FormText name="text" label={lsi.textLabel} required />
+                <Uu5Forms.FormText name="text" label={lsi.textLabel} required autoFocus />
               </Grid.Item>
               <Grid.Item gridArea="amount">
                 <Uu5Forms.FormNumber name="amount" label={lsi.amountLabel} />
