@@ -51,7 +51,7 @@ const DetailPageLayout = createVisualComponent({
     const lsi = useLsi(importLsi, [DetailPageLayout.uu5Tag]);
     const { state, errorData } = useShoppingList();
     const [screenSize] = useScreenSize();
-    const desktopLayout = ["m", "l", "xl"].includes(screenSize);
+    const desktopLayout = ["l", "xl"].includes(screenSize);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -77,8 +77,8 @@ const DetailPageLayout = createVisualComponent({
 
         {state === "ready" && (
           <Grid
-            templateRows={{ xs: "auto auto auto", m: "auto" }}
-            templateColumns={{ xs: "auto", m: "1fr auto 1fr" }}
+            templateRows={{ xs: "auto auto auto", l: "auto" }}
+            templateColumns={{ xs: "auto", l: "1fr auto 486px" }}
             columnGap={4}
             className={Css.fullHeight()}
           >
