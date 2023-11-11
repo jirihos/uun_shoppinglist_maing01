@@ -64,7 +64,7 @@
   "UunShoppinglist.Bricks.MemberTile": {
     "removeHeader": "Remove the member?",
     "cancel": "Cancel",
-    "remove": "Delete"
+    "remove": "Remove"
   },
   "UunShoppinglist.Bricks.Modals.EditShoppingListNameModal": {
     "modalTitle": "Edit shopping list name",
