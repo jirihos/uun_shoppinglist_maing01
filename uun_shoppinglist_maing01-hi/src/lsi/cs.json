@@ -49,7 +49,8 @@
   },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Včetně splněných",
-    "addItemBtn": "Přidat položku"
+    "addItemBtn": "Přidat položku",
+    "archived": "Archivováno"
   },
   "UunShoppinglist.Bricks.ShoppingListItem": {
     "deleteHeader": "Smazat tuto položku?",

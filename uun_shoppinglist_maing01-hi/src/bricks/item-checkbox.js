@@ -26,18 +26,20 @@ const ItemCheckbox = createVisualComponent({
   propTypes: {
     value: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
+    readOnly: PropTypes.bool,
   },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
   defaultProps: {
     onClick: () => {},
+    readOnly: false,
   },
   //@@viewOff:defaultProps
 
   render(props) {
     //@@viewOn:private
-    const { value, onClick } = props;
+    const { value, onClick, readOnly } = props;
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -54,6 +56,7 @@ const ItemCheckbox = createVisualComponent({
         significance={value ? "highlighted" : undefined}
         value={value}
         onClick={onClick}
+        readOnly={readOnly}
         {...attrs}
       />
     ) : null;

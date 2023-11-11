@@ -43,16 +43,19 @@ const ShoppingListItem = createVisualComponent({
       currency: PropTypes.string,
       completed: PropTypes.bool.isRequired,
     }).isRequired,
+    archived: PropTypes.bool,
   },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    archived: false,
+  },
   //@@viewOff:defaultProps
 
   render(props) {
     //@@viewOn:private
-    const { data } = props;
+    const { data, archived } = props;
     const { id, text, amount, unit, totalPrice, currency, completed } = data;
 
     const lsi = useLsi(importLsi, [ShoppingListItem.uu5Tag]);
@@ -82,7 +85,7 @@ const ShoppingListItem = createVisualComponent({
       <Uu5TilesElements.Tile {...attrs}>
         <Grid templateColumns="40px auto 60px" alignItems="center" columnGap={10}>
           <Grid.Item justifySelf="center">
-            <ItemCheckbox value={completed} onClick={handleCheckbox} />
+            <ItemCheckbox value={completed} onClick={handleCheckbox} readOnly={archived} />
           </Grid.Item>
           <Grid.Item>
             <div className={Css.additionalText()}>
@@ -107,6 +110,7 @@ const ShoppingListItem = createVisualComponent({
               colorScheme="important"
               size="xl"
               onClick={() => setDeleteDialogOpen(true)}
+              hidden={archived}
             />
           </Grid.Item>
         </Grid>

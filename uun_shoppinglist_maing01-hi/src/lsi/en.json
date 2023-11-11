@@ -49,7 +49,8 @@
   },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Include completed",
-    "addItemBtn": "Add an item"
+    "addItemBtn": "Add an item",
+    "archived": "Archived"
   },
   "UunShoppinglist.Bricks.ShoppingListItem": {
     "deleteHeader": "Delete this item?",

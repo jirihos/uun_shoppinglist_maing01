@@ -24,6 +24,12 @@ const Css = {
     Config.Css.css({
       verticalAlign: "middle",
     }),
+  archivedIcon: () =>
+    Config.Css.css({
+      display: "inline-block",
+      verticalAlign: "sub",
+      marginLeft: "10px",
+    }),
   addItemBtnDiv: () =>
     Config.Css.css({
       marginTop: "12px",
@@ -53,11 +59,12 @@ const ShoppingList = createVisualComponent({
     //@@viewOn:private
     const lsi = useLsi(importLsi, [ShoppingList.uu5Tag]);
     const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename, addItem } = useShoppingList();
+    const { name, archived, ownerUuIdentity, itemList } = filteredShoppingList;
     const [editNameModalOpen, setEditNameModalOpen] = useState(false);
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
 
     const { identity } = useSession();
-    const isOwner = filteredShoppingList.ownerUuIdentity === identity.uuIdentity;
+    const isOwner = ownerUuIdentity === identity.uuIdentity;
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -71,8 +78,8 @@ const ShoppingList = createVisualComponent({
       <div {...attrs}>
         <div>
           <Uu5Elements.Text category="expose" segment="default" type="hero" autoFit>
-            {filteredShoppingList.name}{" "}
-            {isOwner && (
+            {name}{" "}
+            {!archived && isOwner && (
               <Uu5Elements.Button
                 icon="uugds-pencil"
                 onClick={() => setEditNameModalOpen(true)}
@@ -80,6 +87,15 @@ const ShoppingList = createVisualComponent({
               />
             )}
           </Uu5Elements.Text>
+          {archived && (
+            <Uu5Elements.RichIcon
+              icon="uugdssvg-svg-product"
+              colorScheme="orange"
+              significance="highlighted"
+              tooltip={lsi.archived}
+              className={Css.archivedIcon()}
+            />
+          )}
         </div>
         <div>
           <Uu5Elements.Toggle
@@ -89,17 +105,19 @@ const ShoppingList = createVisualComponent({
           />
         </div>
         <div className={Css.addItemBtnDiv()}>
-          <Uu5Elements.Button
-            onClick={() => setAddItemModalOpen(true)}
-            colorScheme="primary"
-            significance="highlighted"
-          >
-            {lsi.addItemBtn}
-          </Uu5Elements.Button>
+          {!archived && (
+            <Uu5Elements.Button
+              onClick={() => setAddItemModalOpen(true)}
+              colorScheme="primary"
+              significance="highlighted"
+            >
+              {lsi.addItemBtn}
+            </Uu5Elements.Button>
+          )}
         </div>
 
-        <Uu5TilesElements.Grid data={filteredShoppingList.itemList} itemIdentifier="uuIdentity" verticalGap={10}>
-          {(props) => <ShoppingListItem {...props} />}
+        <Uu5TilesElements.Grid data={itemList} itemIdentifier="uuIdentity" verticalGap={10}>
+          {(props) => <ShoppingListItem {...props} archived={archived} />}
         </Uu5TilesElements.Grid>
 
         {editNameModalOpen && (

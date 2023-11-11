@@ -47,18 +47,19 @@ const MemberList = createVisualComponent({
     //@@viewOn:private
     const lsi = useLsi(importLsi, [MemberList.uu5Tag]);
     const { filteredShoppingList, addMember } = useShoppingList();
+    const { archived } = filteredShoppingList;
 
     const { identity } = useSession();
     const isOwner = filteredShoppingList.ownerUuIdentity === identity.uuIdentity;
 
     let memberData = useMemo(() => {
-      let mappedMembers = filteredShoppingList.memberUuIdentityList.map((uuIdentity) => {
-        let showRemoveBtn = isOwner || uuIdentity === identity.uuIdentity;
-        return { uuIdentity, subtitle: lsi.member, showRemoveBtn };
+      let mappedMembers = filteredShoppingList.memberUuIdentityList.map((memberUuIdentity) => {
+        let showRemoveBtn = (isOwner || memberUuIdentity === identity.uuIdentity) && !archived;
+        return { uuIdentity: memberUuIdentity, subtitle: lsi.member, showRemoveBtn };
       });
       mappedMembers.unshift({ uuIdentity: filteredShoppingList.ownerUuIdentity, subtitle: lsi.owner });
       return mappedMembers;
-    }, [filteredShoppingList, lsi, identity.uuIdentity, isOwner]);
+    }, [archived, filteredShoppingList, lsi, identity.uuIdentity, isOwner]);
 
     const [addMemberModalOpen, setAddMemberModalOpen] = useState(false);
     //@@viewOff:private
@@ -76,7 +77,7 @@ const MemberList = createVisualComponent({
           {(props) => <MemberTile {...props} />}
         </Uu5TilesElements.Grid>
 
-        {isOwner && (
+        {!archived && isOwner && (
           <Uu5Elements.Button
             onClick={() => setAddMemberModalOpen(true)}
             colorScheme="primary"
