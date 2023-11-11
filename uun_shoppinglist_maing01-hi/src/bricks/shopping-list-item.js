@@ -86,17 +86,17 @@ const ShoppingListItem = createVisualComponent({
           </Grid.Item>
           <Grid.Item>
             <div className={Css.additionalText()}>
-              <Uu5Elements.Text category="interface" segment="content" type="large" colorScheme="dim">
+              <Uu5Elements.Text category="interface" segment="content" type="large" colorScheme="dim" autoFit>
                 {amount} {unit}
               </Uu5Elements.Text>
             </div>
             <div>
-              <Uu5Elements.Text category="interface" segment="title" type="common">
+              <Uu5Elements.Text category="interface" segment="title" type="common" autoFit>
                 {text}
               </Uu5Elements.Text>
             </div>
             <div className={Css.additionalText()}>
-              <Uu5Elements.Text category="interface" segment="content" type="large" colorScheme="dim">
+              <Uu5Elements.Text category="interface" segment="content" type="large" colorScheme="dim" autoFit>
                 {totalPrice} {currency}
               </Uu5Elements.Text>
             </div>
@@ -116,7 +116,7 @@ const ShoppingListItem = createVisualComponent({
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
           header={lsi.deleteHeader}
-          info={data.text}
+          info={<Uu5Elements.Text autoFit>{data.text}</Uu5Elements.Text>}
           actionDirection="horizontal"
           actionList={[
             {

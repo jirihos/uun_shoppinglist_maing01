@@ -70,7 +70,7 @@ const ShoppingList = createVisualComponent({
     return currentNestingLevel ? (
       <div {...attrs}>
         <div>
-          <Uu5Elements.Text category="expose" segment="default" type="hero">
+          <Uu5Elements.Text category="expose" segment="default" type="hero" autoFit>
             {filteredShoppingList.name}{" "}
             {isOwner && (
               <Uu5Elements.Button

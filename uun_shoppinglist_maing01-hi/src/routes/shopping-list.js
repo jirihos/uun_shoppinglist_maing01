@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, useLsi, useRoute, Utils } from "uu5g05";
+import { createVisualComponent, useLsi, useRoute, Utils, useElementSize } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
@@ -14,7 +14,10 @@ import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOn:css
 const Css = {
-  main: () => Config.Css.css({}),
+  main: () =>
+    Config.Css.css({
+      height: "100%",
+    }),
 };
 //@@viewOff:css
 
@@ -41,6 +44,7 @@ let ShoppingList = createVisualComponent({
     let shoppingListId = route.params?.id;
 
     let lsi = useLsi(importLsi, ["UunShoppinglist.Routes.ShoppingList"]);
+    const { ref, height } = useElementSize();
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -52,11 +56,13 @@ let ShoppingList = createVisualComponent({
 
     return currentNestingLevel ? (
       <div {...attrs}>
-        <RouteBar />
+        <div ref={ref}>
+          <RouteBar />
+        </div>
 
         {shoppingListId ? (
           <ShoppingListProvider shoppingListId={shoppingListId}>
-            <DetailPageLayout />
+            <DetailPageLayout height={height} />
           </ShoppingListProvider>
         ) : (
           <Error title={lsi.paramErrorTitle}>{lsi.paramError}</Error>
