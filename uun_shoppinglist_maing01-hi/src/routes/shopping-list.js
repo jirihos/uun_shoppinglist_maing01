@@ -62,7 +62,7 @@ let ShoppingList = createVisualComponent({
 
         {shoppingListId ? (
           <ShoppingListProvider shoppingListId={shoppingListId}>
-            <DetailPageLayout height={height} />
+            <DetailPageLayout routeBarHeight={height} />
           </ShoppingListProvider>
         ) : (
           <Error title={lsi.paramErrorTitle}>{lsi.paramError}</Error>

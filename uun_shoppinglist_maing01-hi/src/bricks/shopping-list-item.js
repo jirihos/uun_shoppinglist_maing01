@@ -59,10 +59,11 @@ const ShoppingListItem = createVisualComponent({
     const { id, text, amount, unit, totalPrice, currency, completed } = data;
 
     const lsi = useLsi(importLsi, [ShoppingListItem.uu5Tag]);
+    const { setCompleted, deleteItem } = useShoppingList();
+
     const [background] = useAppBackground();
     const darkMode = background === "dark";
 
-    const { setCompleted, deleteItem } = useShoppingList();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     function handleCheckbox() {

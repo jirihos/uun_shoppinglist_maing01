@@ -54,10 +54,11 @@ const MemberTile = createVisualComponent({
     const { uuIdentity, subtitle, showRemoveBtn } = props.data;
 
     const lsi = useLsi(importLsi, [MemberTile.uu5Tag]);
+    const { removeMember } = useShoppingList();
+
     const [background] = useAppBackground();
     const darkMode = background === "dark";
 
-    const { removeMember } = useShoppingList();
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
     function handleRemove() {

@@ -52,12 +52,18 @@ const MemberList = createVisualComponent({
     const { identity } = useSession();
     const isOwner = filteredShoppingList.ownerUuIdentity === identity.uuIdentity;
 
+    // data for rendering member tiles
     let memberData = useMemo(() => {
+      // prepare members
       let mappedMembers = filteredShoppingList.memberUuIdentityList.map((memberUuIdentity) => {
         let showRemoveBtn = (isOwner || memberUuIdentity === identity.uuIdentity) && !archived;
+
         return { uuIdentity: memberUuIdentity, subtitle: lsi.member, showRemoveBtn };
       });
+
+      // add the owner
       mappedMembers.unshift({ uuIdentity: filteredShoppingList.ownerUuIdentity, subtitle: lsi.owner });
+
       return mappedMembers;
     }, [archived, filteredShoppingList, lsi, identity.uuIdentity, isOwner]);
 

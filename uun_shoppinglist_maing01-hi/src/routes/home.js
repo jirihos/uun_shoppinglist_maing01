@@ -49,6 +49,7 @@ let Home = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar hideHomeBtn={true} />
+
         <Grid rowGap={28}>
           <Grid.Item>
             <Button

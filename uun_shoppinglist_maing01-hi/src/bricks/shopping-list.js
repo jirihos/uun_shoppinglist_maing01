@@ -60,6 +60,7 @@ const ShoppingList = createVisualComponent({
     const lsi = useLsi(importLsi, [ShoppingList.uu5Tag]);
     const { filteredShoppingList, includeCompleted, setIncludeCompleted, rename, addItem } = useShoppingList();
     const { name, archived, ownerUuIdentity, itemList } = filteredShoppingList;
+
     const [editNameModalOpen, setEditNameModalOpen] = useState(false);
     const [addItemModalOpen, setAddItemModalOpen] = useState(false);
 

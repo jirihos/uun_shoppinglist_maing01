@@ -14,9 +14,9 @@ import importLsi from "../../lsi/import-lsi.js";
 
 //@@viewOn:css
 const Css = {
-  main: (height, desktopLayout) =>
+  main: (routeBarHeight, desktopLayout) =>
     Config.Css.css({
-      height: height && desktopLayout ? `calc(100% - ${height - 1}px)` : null,
+      height: routeBarHeight && desktopLayout ? `calc(100% - ${routeBarHeight - 1}px)` : null,
       maxWidth: "1920px",
       margin: "auto",
     }),
@@ -36,7 +36,7 @@ const DetailPageLayout = createVisualComponent({
 
   //@@viewOn:propTypes
   propTypes: {
-    height: PropTypes.number,
+    routeBarHeight: PropTypes.number,
   },
   //@@viewOff:propTypes
 
@@ -46,10 +46,11 @@ const DetailPageLayout = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const { height } = props;
+    const { routeBarHeight } = props;
 
     const lsi = useLsi(importLsi, [DetailPageLayout.uu5Tag]);
     const { state, errorData } = useShoppingList();
+
     const [screenSize] = useScreenSize();
     const desktopLayout = ["l", "xl"].includes(screenSize);
     //@@viewOff:private
@@ -58,7 +59,7 @@ const DetailPageLayout = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    const attrs = Utils.VisualComponent.getAttrs(props, Css.main(height, desktopLayout));
+    const attrs = Utils.VisualComponent.getAttrs(props, Css.main(routeBarHeight, desktopLayout));
     const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, DetailPageLayout);
 
     return currentNestingLevel ? (

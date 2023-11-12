@@ -29,23 +29,23 @@ const ShoppingListProvider = createComponent({
     //@@viewOn:private
     const { shoppingListId, children } = props;
 
-    // find a shopping list by id
-    let initialShoppingList = document.initialShoppingLists.find((shoppingList) => shoppingList.id === shoppingListId);
-
-    // simulate errors from calls
     const [state, setState] = useState("ready");
     const [errorData, setErrorData] = useState();
     const { identity } = useSession();
-    if (state === "ready" && !initialShoppingList) {
-      setState("error");
-      setErrorData({ code: "shoppingListNotFound" });
-    }
 
     const [shoppingList, setShoppingList] = useState(() => {
+      // find a shopping list by id
+      let initialShoppingList = document.initialShoppingLists.find(
+        (shoppingList) => shoppingList.id === shoppingListId
+      );
+
       if (initialShoppingList) {
         // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
         return JSON.parse(JSON.stringify(initialShoppingList));
       } else {
+        // simulate errors from calls
+        setState("error");
+        setErrorData({ code: "shoppingListNotFound" });
         return undefined;
       }
     });
