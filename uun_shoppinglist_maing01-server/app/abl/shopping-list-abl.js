@@ -24,6 +24,12 @@ class ShoppingListAbl {
       Errors.List.InvalidDtoIn
     );
 
+    // default values
+    dtoIn.all ??= false;
+    dtoIn.pageInfo ??= {};
+    dtoIn.pageInfo.pageIndex ??= 0;
+    dtoIn.pageInfo.pageSize ??= 20;
+
     // prepare and return dtoOut
     let dtoOut = { ...dtoIn };
     dtoOut.uuAppErrorMap = uuAppErrorMap;
@@ -51,8 +57,9 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async create(awid, dtoIn) {
+  async create(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
+    let uuIdentity = session.getIdentity().getUuIdentity();
 
     // validation of dtoIn
     const validationResult = this.validator.validate("shoppingListCreateDtoInType", dtoIn);
@@ -63,6 +70,9 @@ class ShoppingListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
+
+    // default values
+    dtoIn.ownerUuIdentity ??= uuIdentity;
 
     // prepare and return dtoOut
     let dtoOut = { ...dtoIn };
@@ -143,6 +153,9 @@ class ShoppingListAbl {
       Warnings.AddItem.UnsupportedKeys.code,
       Errors.AddItem.InvalidDtoIn
     );
+
+    // default values
+    dtoIn.item.completed ??= false;
 
     // prepare and return dtoOut
     let dtoOut = { ...dtoIn };
