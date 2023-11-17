@@ -38,9 +38,9 @@ const shoppingListAddItemDtoInType = shape({
   id: id().isRequired(),
   item: shape({
     text: string(1, 100).isRequired(),
-    amount: integer(),
+    amount: number(0, 1000000000),
     unit: string(1, 20),
-    totalPrice: integer(),
+    totalPrice: number(0, 1000000000),
     currency: oneOf(["Kč", "€", "$"]),
     completed: boolean(),
   }).isRequired(),

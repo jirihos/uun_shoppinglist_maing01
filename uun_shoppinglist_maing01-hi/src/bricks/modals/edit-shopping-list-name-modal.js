@@ -68,7 +68,7 @@ const EditShoppingListNameModal = createVisualComponent({
           }
         >
           <Uu5Forms.Form.View>
-            <Uu5Forms.FormText name="name" label={lsi.newNameLabel} required autoFocus />
+            <Uu5Forms.FormText name="name" label={lsi.newNameLabel} minLength={3} maxLength={100} required autoFocus />
           </Uu5Forms.Form.View>
         </Uu5Elements.Modal>
       </Uu5Forms.Form.Provider>

@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-17T14:09:14.244Z",
+  "__export_date": "2023-11-17T14:34:21.447Z",
   "__export_source": "insomnia.desktop.app:v2023.5.8",
   "resources": [
     {
       "_id": "req_e0428893e99945b894cb0ceef61bd6e2",
       "parentId": "fld_6fd8887bb23347168432e4a50e9e1b3b",
-      "modified": 1700227956570,
+      "modified": 1700230340905,
       "created": 1700162151192,
       "url": "{{ host  }}/{{ contextPath  }}/{{ awid  }}/shoppingList/list",
       "name": "shoppingList/list",
@@ -25,7 +25,7 @@
           "value": "application/json"
         }
       ],
-      "authentication": { "token": "{{ token  }}", "type": "bearer" },
+      "authentication": { "token": "{{ token  }}", "type": "bearer", "disabled": false },
       "metaSortKey": -1700162153748,
       "isPrivate": false,
       "settingStoreCookies": true,
@@ -218,7 +218,7 @@
     {
       "_id": "req_a64bbf4328af49a1810893659a96544e",
       "parentId": "fld_6fd8887bb23347168432e4a50e9e1b3b",
-      "modified": 1700228614881,
+      "modified": 1700231532992,
       "created": 1700173904068,
       "url": "{{ host  }}/{{ contextPath  }}/{{ awid  }}/shoppingList/addItem",
       "name": "shoppingList/addItem",
@@ -226,7 +226,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"id\": \"c3a2faebc331484ba8477923\",\n\t\"item\": {\n\t\t\"text\": \"Jogurt\",\n    \"amount\": 1,\n    \"unit\": \"ks\",\n    \"totalPrice\": 30,\n    \"currency\": \"Kč\",\n    \"completed\": false\n\t}\n}"
+        "text": "{\n\t\"id\": \"c3a2faebc331484ba8477923\",\n\t\"item\": {\n\t\t\"text\": \"Jogurt\",\n    \"amount\": 1,\n    \"unit\": \"ks\",\n    \"totalPrice\": 29.90,\n    \"currency\": \"Kč\",\n    \"completed\": false\n\t}\n}"
       },
       "parameters": [],
       "headers": [
@@ -2963,7 +2963,7 @@
     {
       "_id": "env_cef46d8761f843028bb3d60866f00716",
       "parentId": "wrk_06afc2b4125f4ba18ebafe8f14e31020",
-      "modified": 1700230138318,
+      "modified": 1700231608420,
       "created": 1549535556151,
       "name": "New Environment",
       "data": { "contextPath": "uun-shoppinglist-maing01", "token": "" },
