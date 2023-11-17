@@ -1,15 +1,14 @@
 {
   "{asid}": {
-    "profileList": ["AsidAuthorities", "AsidExecutives", "AsidLicenseOwner", "Public"],
-    "useCaseMap": {
-    }
+    "profileList": ["AsidAuthorities","AsidExecutives","AsidLicenseOwner","Public"],
+    "useCaseMap": {}
   },
   "*": {
-    "profileList": ["Authorities", "Executives", "AwidLicenseOwner", "Public", "Authenticated", "AwidInitiator"],
+    "profileList": ["Authorities","Executives","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
-        "sysStateList": ["created", "assigned"],
-        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+        "sysStateList": ["created","assigned"],
+        "profileList": ["AwidLicenseOwner","AwidInitiator"]
       },
       "sys/uuAppWorkspace/load": {
         "sysStateList": ["active"],
@@ -24,7 +23,47 @@
       },
       "sys/uuAppWorkspace/initUve": {
         "sysStateList": ["created"],
-        "profileList": ["Public", "AwidLicenseOwner"]
+        "profileList": ["Public","AwidLicenseOwner"]
+      },
+      "shoppingList/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/addMember": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/removeMember": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/addItem": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/removeItem": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/setItemCompleted": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
+      },
+      "shoppingList/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Authenticated","Executives"]
       }
     }
   }
