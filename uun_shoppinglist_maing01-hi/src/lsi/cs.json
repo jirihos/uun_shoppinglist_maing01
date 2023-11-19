@@ -84,5 +84,9 @@
   "UunShoppinglist.Bricks.Modals.AddMemberModal": {
     "modalTitle": "Přidat člena",
     "personSelectLabel": "Plus4U uživatel"
+  },
+  "UunShoppinglist.Bricks.HomeToolbar": {
+    "createShoppingListBtn": "Vytvořit nákupní seznam",
+    "includeArchived": "Včetně archivovaných"
   }
 }

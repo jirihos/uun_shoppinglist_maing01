@@ -84,5 +84,9 @@
   "UunShoppinglist.Bricks.Modals.AddMemberModal": {
     "modalTitle": "Add a member",
     "personSelectLabel": "Plus4U user"
+  },
+  "UunShoppinglist.Bricks.HomeToolbar": {
+    "createShoppingListBtn": "Create a shopping list",
+    "includeArchived": "Include archived"
   }
 }

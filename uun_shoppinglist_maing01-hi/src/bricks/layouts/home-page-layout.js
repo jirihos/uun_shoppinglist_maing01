@@ -1,9 +1,7 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent } from "uu5g05";
-import { withRoute } from "uu_plus4u5g02-app";
+import { createVisualComponent, Utils } from "uu5g05";
 import Config from "./config/config.js";
-import RouteBar from "../core/route-bar.js";
-import HomePageLayout from "../bricks/layouts/home-page-layout.js";
+import HomeToolbar from "../home-toolbar.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -18,9 +16,10 @@ const Css = {
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-let Home = createVisualComponent({
+const HomePageLayout = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "Home",
+  uu5Tag: Config.TAG + "HomePageLayout",
+  nestingLevel: ["areaCollection", "area"],
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -40,19 +39,18 @@ let Home = createVisualComponent({
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
-    return (
+    const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, HomePageLayout);
+
+    return currentNestingLevel ? (
       <div {...attrs}>
-        <RouteBar hideHomeBtn={true} />
-        <HomePageLayout />
+        <HomeToolbar />
       </div>
-    );
+    ) : null;
     //@@viewOff:render
   },
 });
 
-Home = withRoute(Home, { authenticated: true });
-
 //@@viewOn:exports
-export { Home };
-export default Home;
+export { HomePageLayout };
+export default HomePageLayout;
 //@@viewOff:exports
