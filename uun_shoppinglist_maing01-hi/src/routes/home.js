@@ -4,6 +4,7 @@ import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
 import HomePageLayout from "../bricks/layouts/home-page-layout.js";
+import ShoppingListsProvider from "../bricks/providers/shopping-lists-provider.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -43,7 +44,9 @@ let Home = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar hideHomeBtn={true} />
-        <HomePageLayout />
+        <ShoppingListsProvider>
+          <HomePageLayout />
+        </ShoppingListsProvider>
       </div>
     );
     //@@viewOff:render

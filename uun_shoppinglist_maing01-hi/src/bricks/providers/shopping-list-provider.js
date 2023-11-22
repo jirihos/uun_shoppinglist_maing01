@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { PropTypes, createComponent, useMemo, useSession, useState } from "uu5g05";
+import { PropTypes, createComponent, Utils, useMemo, useSession, useState } from "uu5g05";
 import Config from "./config/config.js";
 import Context from "../../contexts/shopping-list-context.js";
 //@@viewOff:imports
@@ -95,7 +95,7 @@ const ShoppingListProvider = createComponent({
       },
 
       addItem: (item) => {
-        item.id = Math.floor(Math.random() * 100000000).toString();
+        item.id = Utils.String.generateId();
         setShoppingList(({ ...currentShoppingList }) => {
           currentShoppingList.itemList.push(item);
           return currentShoppingList;
