@@ -88,5 +88,12 @@
   "UunShoppinglist.Bricks.HomeToolbar": {
     "createShoppingListBtn": "Create a shopping list",
     "includeArchived": "Include archived"
+  },
+  "UunShoppinglist.Bricks.ShoppingListsTile": {
+    "archived": "Archived",
+    "owner": "Owner",
+    "ownerErrorTitle": "Error loading owner's name",
+    "archiveBtn": "Archive",
+    "deleteBtn": "Delete"
   }
 }

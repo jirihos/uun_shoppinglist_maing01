@@ -3,6 +3,7 @@ import { createVisualComponent, useLsi, Utils } from "uu5g05";
 import { Grid, Button, Toggle } from "uu5g05-elements";
 import Config from "./config/config.js";
 import importLsi from "../lsi/import-lsi.js";
+import { useShoppingLists } from "../contexts/shopping-lists-context.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -34,6 +35,8 @@ const HomeToolbar = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const lsi = useLsi(importLsi, [HomeToolbar.uu5Tag]);
+
+    const { includeArchived, setIncludeArchived } = useShoppingLists();
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -59,7 +62,11 @@ const HomeToolbar = createVisualComponent({
           </Button>
         </Grid.Item>
         <Grid.Item gridArea="toggle" justifySelf={{ l: "end" }}>
-          <Toggle label={lsi.includeArchived} />
+          <Toggle
+            label={lsi.includeArchived}
+            value={includeArchived}
+            onChange={() => setIncludeArchived(!includeArchived)}
+          />
         </Grid.Item>
       </Grid>
     ) : null;

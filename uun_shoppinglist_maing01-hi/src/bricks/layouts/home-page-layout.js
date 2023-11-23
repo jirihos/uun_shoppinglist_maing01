@@ -2,6 +2,7 @@
 import { createVisualComponent, Utils } from "uu5g05";
 import Config from "./config/config.js";
 import HomeToolbar from "../home-toolbar.js";
+import ShoppingListsGrid from "../shopping-lists-grid.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -44,6 +45,7 @@ const HomePageLayout = createVisualComponent({
     return currentNestingLevel ? (
       <div {...attrs}>
         <HomeToolbar />
+        <ShoppingListsGrid />
       </div>
     ) : null;
     //@@viewOff:render

@@ -88,5 +88,12 @@
   "UunShoppinglist.Bricks.HomeToolbar": {
     "createShoppingListBtn": "Vytvořit nákupní seznam",
     "includeArchived": "Včetně archivovaných"
+  },
+  "UunShoppinglist.Bricks.ShoppingListsTile": {
+    "archived": "Archivováno",
+    "owner": "Vlastník",
+    "ownerErrorTitle": "Chyba při načítání jména vlastníka",
+    "archiveBtn": "Archivovat",
+    "deleteBtn": "Smazat"
   }
 }

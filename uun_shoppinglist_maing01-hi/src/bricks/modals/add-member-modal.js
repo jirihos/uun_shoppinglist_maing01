@@ -1,17 +1,17 @@
 //@@viewOn:imports
-import { createVisualComponent, PropTypes, useLsi, Utils, Environment } from "uu5g05";
+import { createVisualComponent, PropTypes, useLsi, Utils } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
+import Plus4U5 from "uu_plus4u5g02";
 import UuPlus4UPeopleForms from "uu_plus4upeopleg01-forms";
 import Config from "./config/config.js";
 import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
-const PEOPLE_BASE_URI = Environment.get(
-  "uu_plus4u5g02_peopleBaseUri",
-  "https://uuapp-dev.plus4u.net/uu-plus4upeople-maing01/0000004723544d1ab0b74000d9f7671c"
-);
+const PEOPLE_BASE_URI =
+  Plus4U5.Environment.peopleBaseUri ||
+  "https://uuapp-dev.plus4u.net/uu-plus4upeople-maing01/0000004723544d1ab0b74000d9f7671c";
 //@@viewOff:constants
 
 //@@viewOn:css

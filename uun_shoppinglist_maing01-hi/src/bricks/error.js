@@ -12,6 +12,7 @@ const Css = {
   main: () =>
     Config.Css.css({
       margin: "8px",
+      whiteSpace: "pre-wrap",
     }),
 };
 //@@viewOff:css
