@@ -95,5 +95,9 @@
     "ownerErrorTitle": "Error loading owner's name",
     "archiveBtn": "Archive",
     "deleteBtn": "Delete"
+  },
+  "UunShoppinglist.Bricks.Modals.NewShoppingListModal": {
+    "modalTitle": "New shopping list",
+    "nameLabel": "Name"
   }
 }

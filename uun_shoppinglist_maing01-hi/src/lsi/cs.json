@@ -95,5 +95,9 @@
     "ownerErrorTitle": "Chyba při načítání jména vlastníka",
     "archiveBtn": "Archivovat",
     "deleteBtn": "Smazat"
+  },
+  "UunShoppinglist.Bricks.Modals.NewShoppingListModal": {
+    "modalTitle": "Nový nákupní seznam",
+    "nameLabel": "Název"
   }
 }

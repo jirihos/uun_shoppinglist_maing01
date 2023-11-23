@@ -1,9 +1,10 @@
 //@@viewOn:imports
-import { createVisualComponent, useLsi, Utils } from "uu5g05";
+import { createVisualComponent, useLsi, useState, Utils } from "uu5g05";
 import { Grid, Button, Toggle } from "uu5g05-elements";
 import Config from "./config/config.js";
-import importLsi from "../lsi/import-lsi.js";
 import { useShoppingLists } from "../contexts/shopping-lists-context.js";
+import NewShoppingListModal from "./modals/new-shopping-list-modal.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -36,7 +37,9 @@ const HomeToolbar = createVisualComponent({
     //@@viewOn:private
     const lsi = useLsi(importLsi, [HomeToolbar.uu5Tag]);
 
-    const { includeArchived, setIncludeArchived } = useShoppingLists();
+    const { includeArchived, setIncludeArchived, createShoppingList } = useShoppingLists();
+
+    const [newListModalOpen, setNewListModalOpen] = useState(false);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -47,28 +50,40 @@ const HomeToolbar = createVisualComponent({
     const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, HomeToolbar);
 
     return currentNestingLevel ? (
-      <Grid
-        templateRows={{ xs: "auto auto", l: "auto" }}
-        templateColumns={{ xs: "auto", l: "1fr 1fr 1fr" }}
-        templateAreas={{ xs: "button, toggle", l: ". button toggle" }}
-        rowGap={8}
-        justifyItems="center"
-        alignItems="center"
-        {...attrs}
-      >
-        <Grid.Item gridArea="button">
-          <Button colorScheme="primary" significance="highlighted" size="l">
-            {lsi.createShoppingListBtn}
-          </Button>
-        </Grid.Item>
-        <Grid.Item gridArea="toggle" justifySelf={{ l: "end" }}>
-          <Toggle
-            label={lsi.includeArchived}
-            value={includeArchived}
-            onChange={() => setIncludeArchived(!includeArchived)}
+      <div>
+        <Grid
+          templateRows={{ xs: "auto auto", l: "auto" }}
+          templateColumns={{ xs: "auto", l: "1fr 1fr 1fr" }}
+          templateAreas={{ xs: "button, toggle", l: ". button toggle" }}
+          rowGap={8}
+          justifyItems="center"
+          alignItems="center"
+          {...attrs}
+        >
+          <Grid.Item gridArea="button">
+            <Button colorScheme="primary" significance="highlighted" size="l" onClick={() => setNewListModalOpen(true)}>
+              {lsi.createShoppingListBtn}
+            </Button>
+          </Grid.Item>
+          <Grid.Item gridArea="toggle" justifySelf={{ l: "end" }}>
+            <Toggle
+              label={lsi.includeArchived}
+              value={includeArchived}
+              onChange={() => setIncludeArchived(!includeArchived)}
+            />
+          </Grid.Item>
+        </Grid>
+
+        {newListModalOpen && (
+          <NewShoppingListModal
+            onSubmit={(name) => {
+              setNewListModalOpen(false);
+              createShoppingList(name);
+            }}
+            onClose={() => setNewListModalOpen(false)}
           />
-        </Grid.Item>
-      </Grid>
+        )}
+      </div>
     ) : null;
     //@@viewOff:render
   },

@@ -62,7 +62,7 @@ const ShoppingListsProvider = createComponent({
       },
 
       createShoppingList: (name) => {
-        setShoppingLists(({ ...currentShoppingLists }) => {
+        setShoppingLists(([...currentShoppingLists]) => {
           currentShoppingLists.push({
             id: Utils.String.generateId(),
             name,
@@ -76,7 +76,7 @@ const ShoppingListsProvider = createComponent({
       },
 
       archive: (listId) => {
-        setShoppingLists(({ ...currentShoppingLists }) => {
+        setShoppingLists(([...currentShoppingLists]) => {
           let shoppingList = currentShoppingLists.find((shoppingList) => shoppingList.id === listId);
           if (shoppingList) {
             shoppingList.archived = true;
@@ -86,7 +86,7 @@ const ShoppingListsProvider = createComponent({
       },
 
       delete: (listId) => {
-        setShoppingLists(({ ...currentShoppingLists }) => {
+        setShoppingLists(([...currentShoppingLists]) => {
           let index = currentShoppingLists.findIndex((shoppingList) => shoppingList.id === listId);
           if (index !== -1) {
             currentShoppingLists.splice(index, 1);
