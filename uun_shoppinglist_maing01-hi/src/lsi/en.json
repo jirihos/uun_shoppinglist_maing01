@@ -89,6 +89,13 @@
     "createShoppingListBtn": "Create a shopping list",
     "includeArchived": "Include archived"
   },
+  "UunShoppinglist.Bricks.ShoppingListsGrid": {
+    "archiveBtn": "Archive",
+    "deleteBtn": "Delete",
+    "cancelBtn": "Cancel",
+    "archiveDialogHeader": "Archive this shopping list?",
+    "deleteDialogHeader": "Delete this shopping list?"
+  },
   "UunShoppinglist.Bricks.ShoppingListsTile": {
     "archived": "Archived",
     "owner": "Owner",

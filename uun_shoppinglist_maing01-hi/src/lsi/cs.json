@@ -89,6 +89,13 @@
     "createShoppingListBtn": "Vytvořit nákupní seznam",
     "includeArchived": "Včetně archivovaných"
   },
+  "UunShoppinglist.Bricks.ShoppingListsGrid": {
+    "archiveBtn": "Archivovat",
+    "deleteBtn": "Smazat",
+    "cancelBtn": "Zrušit",
+    "archiveDialogHeader": "Archivovat tento nákupní seznam?",
+    "deleteDialogHeader": "Smazat tento nákupní seznam?"
+  },
   "UunShoppinglist.Bricks.ShoppingListsTile": {
     "archived": "Archivováno",
     "owner": "Vlastník",

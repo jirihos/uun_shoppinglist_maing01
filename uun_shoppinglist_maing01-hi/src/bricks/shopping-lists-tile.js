@@ -45,6 +45,8 @@ const ShoppingListsTile = createVisualComponent({
       archived: PropTypes.bool.isRequired,
       ownerUuIdentity: PropTypes.string.isRequired,
     }).isRequired,
+    onArchive: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   },
   //@@viewOff:propTypes
 
@@ -54,7 +56,7 @@ const ShoppingListsTile = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const { data } = props;
+    const { data, onArchive, onDelete } = props;
 
     const lsi = useLsi(importLsi, [ShoppingListsTile.uu5Tag]);
     const [, setRoute] = useRoute();
@@ -72,13 +74,13 @@ const ShoppingListsTile = createVisualComponent({
           icon: "uugdsstencil-uiaction-archive",
           collapsedChildren: lsi.archiveBtn,
           collapsed,
-          onClick: handleArchive,
+          onClick: onArchive,
         },
         {
           icon: "uugds-delete",
           collapsedChildren: lsi.deleteBtn,
           collapsed,
-          onClick: handleDelete,
+          onClick: onDelete,
         },
       ];
     } else {
@@ -87,7 +89,7 @@ const ShoppingListsTile = createVisualComponent({
         {
           icon: "uugds-delete",
           collapsedChildren: lsi.deleteBtn,
-          onClick: handleDelete,
+          onClick: onDelete,
         },
       ];
     }
@@ -99,14 +101,6 @@ const ShoppingListsTile = createVisualComponent({
         return;
       }
       setRoute("shoppingList", { id: data.id });
-    }
-
-    function handleArchive(e) {
-      e.stopPropagation();
-    }
-
-    function handleDelete(e) {
-      e.stopPropagation();
     }
     //@@viewOff:private
 

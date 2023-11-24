@@ -75,7 +75,7 @@ const ShoppingListsProvider = createComponent({
         });
       },
 
-      archive: (listId) => {
+      archiveShoppingList: (listId) => {
         setShoppingLists(([...currentShoppingLists]) => {
           let shoppingList = currentShoppingLists.find((shoppingList) => shoppingList.id === listId);
           if (shoppingList) {
@@ -85,7 +85,7 @@ const ShoppingListsProvider = createComponent({
         });
       },
 
-      delete: (listId) => {
+      deleteShoppingList: (listId) => {
         setShoppingLists(([...currentShoppingLists]) => {
           let index = currentShoppingLists.findIndex((shoppingList) => shoppingList.id === listId);
           if (index !== -1) {
