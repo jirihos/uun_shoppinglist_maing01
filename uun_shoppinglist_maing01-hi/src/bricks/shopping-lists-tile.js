@@ -97,7 +97,11 @@ const ShoppingListsTile = createVisualComponent({
     function handleOpen(e) {
       const clickedComponent = e?.target?.dataset?.name;
       // ignore clicks on buttons and dropdown
-      if (clickedComponent === "Uu5Elements.Icon" || clickedComponent === "Uu5Elements.Dropdown") {
+      if (
+        clickedComponent === "Uu5Elements.Icon" ||
+        clickedComponent === "Uu5Elements.Dropdown" ||
+        clickedComponent === "Uu5Elements.MenuList"
+      ) {
         return;
       }
       setRoute("shoppingList", { id: data.id });
