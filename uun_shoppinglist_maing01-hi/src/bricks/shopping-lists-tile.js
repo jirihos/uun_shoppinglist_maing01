@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, PropTypes, useRoute, useScreenSize, useLsi, useSession } from "uu5g05";
+import { createVisualComponent, Utils, PropTypes, useRoute, useScreenSize, useLsi, useSession, useRef } from "uu5g05";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Uu5Elements, { Grid } from "uu5g05-elements";
 import Plus4U5 from "uu_plus4u5g02";
@@ -94,16 +94,17 @@ const ShoppingListsTile = createVisualComponent({
       ];
     }
 
+    const actionGroupRef = useRef();
+
     function handleOpen(e) {
-      const clickedComponent = e?.target?.dataset?.name;
-      // ignore clicks on buttons and dropdown
+      // hacky solution to ignore clicks on buttons and dropdown menu
       if (
-        clickedComponent === "Uu5Elements.Icon" ||
-        clickedComponent === "Uu5Elements.Dropdown" ||
-        clickedComponent === "Uu5Elements.MenuList"
+        actionGroupRef.current.firstChild.firstChild.firstChild.contains(e.target) ||
+        e.target.getAttribute("role") === "menu"
       ) {
         return;
       }
+
       setRoute("shoppingList", { id: data.id });
     }
     //@@viewOff:private
@@ -155,7 +156,13 @@ const ShoppingListsTile = createVisualComponent({
               </UuPlus4UPeopleCore.PersonalCard.Provider>
             </div>
           </Grid.Item>
-          <Grid.Item>{isOwner && <Uu5Elements.ActionGroup itemList={itemList} size="xl" />}</Grid.Item>
+          <Grid.Item>
+            {isOwner && (
+              <div ref={actionGroupRef}>
+                <Uu5Elements.ActionGroup itemList={itemList} size="xl" />
+              </div>
+            )}
+          </Grid.Item>
         </Grid>
       </Uu5TilesElements.Tile>
     ) : null;
