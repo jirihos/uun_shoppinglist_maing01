@@ -98,10 +98,8 @@ const ShoppingListsTile = createVisualComponent({
 
     function handleOpen(e) {
       // hacky solution to ignore clicks on buttons and dropdown menu
-      if (
-        actionGroupRef.current.firstChild.firstChild.firstChild.contains(e.target) ||
-        e.target.getAttribute("role") === "menu"
-      ) {
+      const dropdownBtn = actionGroupRef.current?.firstChild?.firstChild?.firstChild;
+      if ((dropdownBtn && dropdownBtn.contains(e.target)) || e.target?.getAttribute("role") === "menu") {
         return;
       }
 
