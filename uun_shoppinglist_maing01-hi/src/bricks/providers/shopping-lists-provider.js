@@ -32,8 +32,11 @@ const ShoppingListsProvider = createComponent({
     const { identity } = useSession();
 
     const [shoppingLists, setShoppingLists] = useState(() => {
+      // make a deep copy of initialShoppingLists otherwise archived state is remembered when switching routes
+      let initialShoppingLists = JSON.parse(JSON.stringify(document.initialShoppingLists));
+
       // filter shopping lists where the user is owner or member
-      return document.initialShoppingLists.filter((shoppingList) => {
+      return initialShoppingLists.filter((shoppingList) => {
         return (
           shoppingList.ownerUuIdentity === identity.uuIdentity ||
           shoppingList.memberUuIdentityList.includes(identity.uuIdentity)
@@ -42,7 +45,7 @@ const ShoppingListsProvider = createComponent({
     });
     const [includeArchived, setIncludeArchived] = useState(false);
 
-    // sort shopping lists based archive state
+    // sort shopping lists based archived state
     let sortedShoppingLists = useMemo(() => {
       if (shoppingLists) {
         return [...shoppingLists].sort((a, b) => {
