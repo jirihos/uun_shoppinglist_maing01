@@ -42,14 +42,31 @@ const ShoppingListsProvider = createComponent({
     });
     const [includeArchived, setIncludeArchived] = useState(false);
 
-    // filter shopping lists based on includeArchived state
-    let filteredShoppingLists = useMemo(() => {
-      if (!includeArchived && shoppingLists) {
-        return shoppingLists.filter((shoppingList) => !shoppingList.archived);
+    // sort shopping lists based archive state
+    let sortedShoppingLists = useMemo(() => {
+      if (shoppingLists) {
+        return [...shoppingLists].sort((a, b) => {
+          if (a.archived === b.archived) {
+            return 0;
+          } else if (a.archived) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
       } else {
         return shoppingLists;
       }
-    }, [shoppingLists, includeArchived]);
+    }, [shoppingLists]);
+
+    // filter shopping lists based on includeArchived state
+    let filteredShoppingLists = useMemo(() => {
+      if (!includeArchived && sortedShoppingLists) {
+        return sortedShoppingLists.filter((shoppingList) => !shoppingList.archived);
+      } else {
+        return sortedShoppingLists;
+      }
+    }, [sortedShoppingLists, includeArchived]);
 
     const contextValue = {
       state,
