@@ -16,7 +16,7 @@ const DARK_COLOR = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter
 const Css = {
   main: () =>
     Config.Css.css({
-      margin: "10px",
+      maxWidth: "1920px",
     }),
 };
 //@@viewOff:css
@@ -72,8 +72,8 @@ const ShoppingListsGrid = createVisualComponent({
       <div>
         <Uu5TilesElements.Grid
           data={filteredShoppingLists}
-          tileMinWidth={480}
-          tileMaxWidth={768}
+          tileMinWidth={470}
+          tileMaxWidth={470}
           verticalGap={10}
           horizontalGap={10}
           {...attrs}

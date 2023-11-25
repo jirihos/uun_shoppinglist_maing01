@@ -12,7 +12,10 @@ import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOn:css
 const Css = {
-  main: () => Config.Css.css({}),
+  main: () =>
+    Config.Css.css({
+      marginBottom: "10px",
+    }),
 };
 //@@viewOff:css
 

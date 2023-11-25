@@ -10,7 +10,14 @@ import ShoppingListsGrid from "../shopping-lists-grid.js";
 
 //@@viewOn:css
 const Css = {
-  main: () => Config.Css.css({}),
+  main: () =>
+    Config.Css.css({
+      padding: "10px",
+    }),
+  grid: () =>
+    Config.Css.css({
+      margin: "auto",
+    }),
 };
 //@@viewOff:css
 
@@ -45,7 +52,7 @@ const HomePageLayout = createVisualComponent({
     return currentNestingLevel ? (
       <div {...attrs}>
         <HomeToolbar />
-        <ShoppingListsGrid />
+        <ShoppingListsGrid className={Css.grid()} />
       </div>
     ) : null;
     //@@viewOff:render
