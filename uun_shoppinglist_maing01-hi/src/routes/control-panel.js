@@ -61,7 +61,7 @@ let ControlPanel = createVisualComponent({
           <DynamicLibraryComponent
             {...props}
             uu5Tag="UuTerritory.ArtifactIfc.Bricks.PermissionSettings"
-            style={{ margin: 24, width: "auto" }} // TODO Use className when uu_territory gets fixed (it ignores it now)
+            style={{ margin: 24, width: "auto" }} // Use className when uu_territory gets fixed (it ignores it now)
             territoryBaseUri={territoryBaseUri}
             artifactId={artifactId}
           />

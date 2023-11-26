@@ -62,7 +62,7 @@ class ShoppinglistMainAbl {
       const appClientToken = await AppClientTokenService.createToken(uri, uuBtBaseUri);
       const callOpts = AppClientTokenService.setToken({ session }, appClientToken);
 
-      // TODO HDS
+      // HDS
       let awscId;
       try {
         const awscDtoOut = await AppClient.post(awscCreateUri, createAwscDtoIn, callOpts);
@@ -102,7 +102,7 @@ class ShoppinglistMainAbl {
     }
 
     // HDS 4 - HDS N
-    // TODO Implement according to application needs...
+    // Implement according to application needs...
 
     // HDS N+1
     const workspace = UuAppWorkspace.get(awid);
@@ -117,7 +117,7 @@ class ShoppinglistMainAbl {
     // HDS 1
     const dtoOut = await UuAppWorkspace.load(uri, session, uuAppErrorMap);
 
-    // TODO Implement according to application needs...
+    // Implement according to application needs...
     // if (dtoOut.sysData.awidData.sysState !== UuAppWorkspace.SYS_STATES.CREATED &&
     //    dtoOut.sysData.awidData.sysState !== UuAppWorkspace.SYS_STATES.ASSIGNED
     // ) {
@@ -134,7 +134,7 @@ class ShoppinglistMainAbl {
     // HDS 1
     const dtoOut = await UuAppWorkspace.loadBasicData(uri, session, uuAppErrorMap);
 
-    // TODO Implement according to application needs...
+    // Implement according to application needs...
     // const awid = uri.getAwid();
     // const workspace = await UuAppWorkspace.get(awid);
     // if (workspace.sysState !== UuAppWorkspace.SYS_STATES.CREATED &&
