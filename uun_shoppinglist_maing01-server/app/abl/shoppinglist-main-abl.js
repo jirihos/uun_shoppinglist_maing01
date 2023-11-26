@@ -34,7 +34,7 @@ class ShoppinglistMainAbl {
     );
 
     // HDS 2
-    const schemas = ["shoppinglistMain"];
+    const schemas = ["shoppinglistMain", "shoppingList"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
