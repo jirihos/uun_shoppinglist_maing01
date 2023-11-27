@@ -326,7 +326,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async delete(awid, dtoIn) {
+  async delete(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -339,9 +339,27 @@ class ShoppingListAbl {
       Errors.Delete.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.Delete.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      if (!isOwner) {
+        throw new Errors.Delete.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    // delete shopping list
+    await this.dao.delete(awid, dtoIn.id);
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = { uuAppErrorMap };
 
     return dtoOut;
   }

@@ -207,6 +207,23 @@ const Delete = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to delete this shopping list.";
+      this.status = 403;
+    }
+  },
 };
 
 module.exports = {
