@@ -37,6 +37,32 @@ const Create = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  InvalidShoppingListName: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}invalidShoppingListName`;
+      this.message = "The shopping list name is not valid.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to specify any other person as the shopping list's owner.";
+      this.status = 403;
+    }
+  },
+
+  ShoppingListDaoCreateFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}shoppingListDaoCreateFailed`;
+      this.message = "Create shopping list by shopping list DAO failed.";
+      this.status = 500;
+    }
+  },
 };
 
 const Update = {

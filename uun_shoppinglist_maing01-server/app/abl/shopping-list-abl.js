@@ -1,9 +1,11 @@
 "use strict";
 const { Validator } = require("uu_appg01_server").Validation;
-const { DaoFactory } = require("uu_appg01_server").ObjectStore;
+const { DaoFactory, ObjectStoreError } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
 const Errors = require("../api/errors/shopping-list-error.js");
 const Warnings = require("../api/warnings/shopping-list-warning.js");
+
+const EXECUTIVES_PROFILE = "Executives";
 
 class ShoppingListAbl {
   constructor() {
@@ -74,9 +76,40 @@ class ShoppingListAbl {
     // default values
     dtoIn.ownerUuIdentity ??= uuIdentity;
 
+    // custom validation for dtoIn.name
+    let name = dtoIn.name.trim();
+    if (name.length < 3) {
+      throw new Errors.Create.InvalidShoppingListName({ uuAppErrorMap }, { name: dtoIn.name });
+    }
+
+    // check permissions
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      if (dtoIn.ownerUuIdentity !== uuIdentity) {
+        throw new Errors.Create.UserNotAuthorized({ uuAppErrorMap }, { uuIdentity });
+      }
+    }
+
+    // DAO create
+    let shoppingList;
+    try {
+      shoppingList = await this.dao.create({
+        awid,
+        name,
+        archived: false,
+        ownerUuIdentity: dtoIn.ownerUuIdentity,
+        memberUuIdentityList: [],
+        itemList: [],
+      });
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.Create.ShoppingListDaoCreateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = { ...shoppingList, uuAppErrorMap };
 
     return dtoOut;
   }
