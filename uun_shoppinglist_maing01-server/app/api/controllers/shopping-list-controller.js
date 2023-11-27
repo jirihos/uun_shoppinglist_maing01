@@ -37,7 +37,9 @@ class ShoppingListController {
   addMember(ucEnv) {
     const awid = ucEnv.getUri().getAwid();
     const dtoIn = ucEnv.getDtoIn();
-    return ShoppingListAbl.addMember(awid, dtoIn);
+    const session = ucEnv.getSession();
+    const authorizationResult = ucEnv.getAuthorizationResult();
+    return ShoppingListAbl.addMember(awid, dtoIn, session, authorizationResult);
   }
 
   removeMember(ucEnv) {

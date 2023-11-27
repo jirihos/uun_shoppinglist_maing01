@@ -223,7 +223,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async addMember(awid, dtoIn) {
+  async addMember(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -236,9 +236,67 @@ class ShoppingListAbl {
       Errors.AddMember.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.AddMember.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      if (!isOwner) {
+        throw new Errors.AddMember.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    let { memberUuIdentity } = dtoIn;
+    let { memberUuIdentityList } = shoppingList;
+
+    // check whether the new member is owner
+    if (memberUuIdentity === shoppingList.ownerUuIdentity) {
+      throw new Errors.AddMember.CannotAddOwnerAsMember(
+        { uuAppErrorMap },
+        { shoppingListId: dtoIn.id, memberUuIdentity }
+      );
+    }
+
+    // check whether the new member is already on the list
+    if (memberUuIdentityList.includes(memberUuIdentity)) {
+      throw new Errors.AddMember.MemberIsAlreadyAdded(
+        { uuAppErrorMap },
+        { shoppingListId: dtoIn.id, memberUuIdentity }
+      );
+    }
+
+    // DAO update
+    try {
+      memberUuIdentityList.push(dtoIn.memberUuIdentity);
+
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+        memberUuIdentityList,
+      };
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.AddMember.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      memberUuIdentityList: shoppingList.memberUuIdentityList,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }
