@@ -1,5 +1,6 @@
 "use strict";
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
+const { ObjectId } = require("bson");
 
 class ShoppingListMongo extends UuObjectDao {
   async createSchema() {
@@ -13,6 +14,27 @@ class ShoppingListMongo extends UuObjectDao {
 
   async create(uuObject) {
     return await super.insertOne(uuObject);
+  }
+
+  async get(awid, id) {
+    return await super.findOne({ id, awid });
+  }
+
+  async update(uuObject) {
+    let filter = { id: uuObject.id, awid: uuObject.awid };
+
+    if (uuObject.itemList) {
+      uuObject.itemList = uuObject.itemList.map(({ ...item }) => {
+        item.id = new ObjectId(item.id);
+        return item;
+      });
+    }
+
+    return await super.findOneAndUpdate(filter, uuObject, "NONE");
+  }
+
+  async delete(awid, id) {
+    await super.deleteOne({ id, awid });
   }
 
   async list(awid, criteria, pageInfo = {}) {
