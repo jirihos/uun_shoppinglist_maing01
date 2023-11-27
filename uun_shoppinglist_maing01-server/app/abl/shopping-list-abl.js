@@ -151,7 +151,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async update(awid, dtoIn) {
+  async update(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -164,9 +164,61 @@ class ShoppingListAbl {
       Errors.Update.InvalidDtoIn
     );
 
+    // custom validation for dtoIn.name
+    let name;
+    if (dtoIn.name !== undefined) {
+      name = dtoIn.name.trim();
+      if (name.length < 3) {
+        throw new Errors.Update.InvalidShoppingListName({ uuAppErrorMap }, { name: dtoIn.name });
+      }
+    }
+
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.Update.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      if (!isOwner) {
+        throw new Errors.Update.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    // DAO update
+    try {
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+      };
+      if (name !== undefined) {
+        updateObject.name = name;
+      }
+      if (dtoIn.archived !== undefined) {
+        updateObject.archived = dtoIn.archived;
+      }
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.Update.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      name: shoppingList.name,
+      archived: shoppingList.archived,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }

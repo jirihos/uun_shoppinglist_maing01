@@ -101,6 +101,40 @@ const Update = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  InvalidShoppingListName: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}invalidShoppingListName`;
+      this.message = "The shopping list name is not valid.";
+    }
+  },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to update this shopping list.";
+      this.status = 403;
+    }
+  },
+
+  ShoppingListDaoUpdateFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}shoppingListDaoUpdateFailed`;
+      this.message = "Update shopping list by shopping list DAO failed.";
+      this.status = 500;
+    }
+  },
 };
 
 const AddMember = {

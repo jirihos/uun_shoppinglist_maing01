@@ -20,8 +20,8 @@ const shoppingListCreateDtoInType = shape({
 
 const shoppingListUpdateDtoInType = shape({
   id: id().isRequired(),
-  name: string(3, 100),
-  archived: boolean(),
+  name: string(3, 100).isRequired(["archived"]),
+  archived: boolean().isRequired(["name"]),
 });
 
 const shoppingListAddMemberDtoInType = shape({
