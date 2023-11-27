@@ -60,7 +60,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async get(awid, dtoIn) {
+  async get(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -73,9 +73,25 @@ class ShoppingListAbl {
       Errors.Get.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.Get.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
+      if (!isOwner && !isMember) {
+        throw new Errors.Create.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = { ...shoppingList, uuAppErrorMap };
 
     return dtoOut;
   }

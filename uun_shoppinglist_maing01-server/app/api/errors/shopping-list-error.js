@@ -34,6 +34,23 @@ const Get = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to view this shopping list.";
+      this.status = 403;
+    }
+  },
 };
 
 const Create = {
