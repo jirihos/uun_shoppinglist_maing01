@@ -301,7 +301,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async removeMember(awid, dtoIn) {
+  async removeMember(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -314,9 +314,60 @@ class ShoppingListAbl {
       Errors.RemoveMember.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.RemoveMember.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      if (!isOwner) {
+        throw new Errors.RemoveMember.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    let { memberUuIdentity } = dtoIn;
+    let { memberUuIdentityList } = shoppingList;
+    let memberIndex = memberUuIdentityList.indexOf(memberUuIdentity);
+
+    // check whether the member is on the list
+    if (memberIndex === -1) {
+      throw new Errors.RemoveMember.MemberIsNotOnList(
+        { uuAppErrorMap },
+        { shoppingListId: dtoIn.id, memberUuIdentity }
+      );
+    }
+
+    // DAO update
+    try {
+      memberUuIdentityList.splice(memberIndex, 1);
+
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+        memberUuIdentityList,
+      };
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.RemoveMember.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      memberUuIdentityList: shoppingList.memberUuIdentityList,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }

@@ -201,6 +201,40 @@ const RemoveMember = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveMember.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveMember.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to remove a member from this shopping list.";
+      this.status = 403;
+    }
+  },
+
+  MemberIsNotOnList: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveMember.UC_CODE}memberIsNotOnList`;
+      this.message = "Member is not on the list of members.";
+    }
+  },
+
+  ShoppingListDaoUpdateFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveMember.UC_CODE}shoppingListDaoUpdateFailed`;
+      this.message = "Update shopping list by shopping list DAO failed.";
+      this.status = 500;
+    }
+  },
 };
 
 const AddItem = {
