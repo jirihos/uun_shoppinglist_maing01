@@ -13,7 +13,7 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
-  async list(awid, dtoIn) {
+  async list(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -32,9 +32,30 @@ class ShoppingListAbl {
     dtoIn.pageInfo.pageIndex ??= 0;
     dtoIn.pageInfo.pageSize ??= 20;
 
+    // check permissions
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (dtoIn.all && !isExecutive) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap });
+    }
+
+    // DAO list
+    let criteria = {};
+    if (dtoIn.archived !== undefined) {
+      criteria.archived = dtoIn.archived;
+    }
+    if (!dtoIn.all) {
+      let uuIdentity = session.getIdentity().getUuIdentity();
+      criteria.$or = [{ ownerUuIdentity: uuIdentity }, { memberUuIdentityList: uuIdentity }];
+    }
+
+    let list = await this.dao.list(awid, criteria, dtoIn.pageInfo);
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = { ...list, uuAppErrorMap };
+    dtoOut.itemList.forEach((shoppingList) => {
+      shoppingList.itemListCount = shoppingList.itemList.length;
+      delete shoppingList.itemList;
+    });
 
     return dtoOut;
   }
@@ -86,7 +107,7 @@ class ShoppingListAbl {
     let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
     if (!isExecutive) {
       if (dtoIn.ownerUuIdentity !== uuIdentity) {
-        throw new Errors.Create.UserNotAuthorized({ uuAppErrorMap }, { uuIdentity });
+        throw new Errors.Create.UserNotAuthorized({ uuAppErrorMap });
       }
     }
 

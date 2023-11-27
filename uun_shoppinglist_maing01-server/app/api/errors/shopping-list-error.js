@@ -13,6 +13,15 @@ const List = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}userNotAuthorized`;
+      this.message = "The user is not authorized to list all shopping lists.";
+      this.status = 403;
+    }
+  },
 };
 
 const Get = {

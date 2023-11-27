@@ -14,6 +14,12 @@ class ShoppingListMongo extends UuObjectDao {
   async create(uuObject) {
     return await super.insertOne(uuObject);
   }
+
+  async list(awid, criteria, pageInfo = {}) {
+    let filter = { awid, ...criteria };
+
+    return await super.find(filter, pageInfo);
+  }
 }
 
 module.exports = ShoppingListMongo;

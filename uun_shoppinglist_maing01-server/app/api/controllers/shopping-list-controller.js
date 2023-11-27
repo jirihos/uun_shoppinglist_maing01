@@ -5,7 +5,9 @@ class ShoppingListController {
   list(ucEnv) {
     const awid = ucEnv.getUri().getAwid();
     const dtoIn = ucEnv.getDtoIn();
-    return ShoppingListAbl.list(awid, dtoIn);
+    const session = ucEnv.getSession();
+    const authorizationResult = ucEnv.getAuthorizationResult();
+    return ShoppingListAbl.list(awid, dtoIn, session, authorizationResult);
   }
 
   get(ucEnv) {
