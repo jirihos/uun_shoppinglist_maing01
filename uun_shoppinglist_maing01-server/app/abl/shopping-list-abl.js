@@ -482,7 +482,7 @@ class ShoppingListAbl {
 
     // DAO update
     let { itemList } = shoppingList;
-    let itemIndex = shoppingList.itemList.findIndex((currentItem) => currentItem.id.equals(dtoIn.itemId));
+    let itemIndex = itemList.findIndex((currentItem) => currentItem.id.equals(dtoIn.itemId));
     if (itemIndex === -1) {
       throw new Errors.RemoveItem.ItemDoesNotExist(
         { uuAppErrorMap },
@@ -518,7 +518,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async setItemCompleted(awid, dtoIn) {
+  async setItemCompleted(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -531,9 +531,59 @@ class ShoppingListAbl {
       Errors.SetItemCompleted.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.SetItemCompleted.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
+      if (!isOwner && !isMember) {
+        throw new Errors.SetItemCompleted.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    // DAO update
+    let { itemList } = shoppingList;
+    let item = itemList.find((currentItem) => currentItem.id.equals(dtoIn.itemId));
+    if (!item) {
+      throw new Errors.SetItemCompleted.ItemDoesNotExist(
+        { uuAppErrorMap },
+        { shoppingListId: dtoIn.id, itemId: dtoIn.itemId }
+      );
+    }
+    item.completed = dtoIn.completed;
+
+    try {
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+        itemList,
+      };
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.SetItemCompleted.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    item = shoppingList.itemList.find((currentItem) => currentItem.id.equals(dtoIn.itemId));
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      itemId: item.id,
+      completed: item.completed,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }

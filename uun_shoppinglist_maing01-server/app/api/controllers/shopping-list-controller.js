@@ -69,7 +69,9 @@ class ShoppingListController {
   setItemCompleted(ucEnv) {
     const awid = ucEnv.getUri().getAwid();
     const dtoIn = ucEnv.getDtoIn();
-    return ShoppingListAbl.setItemCompleted(awid, dtoIn);
+    const session = ucEnv.getSession();
+    const authorizationResult = ucEnv.getAuthorizationResult();
+    return ShoppingListAbl.setItemCompleted(awid, dtoIn, session, authorizationResult);
   }
 
   delete(ucEnv) {
