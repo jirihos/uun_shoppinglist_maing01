@@ -276,7 +276,7 @@ const AddItem = {
     constructor() {
       super(...arguments);
       this.code = `${AddItem.UC_CODE}userNotAuthorized`;
-      this.message = "User is not allowed to add item to this shopping list.";
+      this.message = "User is not allowed to add an item to this shopping list.";
       this.status = 403;
     }
   },
@@ -299,6 +299,40 @@ const RemoveItem = {
       super(...arguments);
       this.code = `${RemoveItem.UC_CODE}invalidDtoIn`;
       this.message = "DtoIn is not valid.";
+    }
+  },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveItem.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveItem.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to remove an item from this shopping list.";
+      this.status = 403;
+    }
+  },
+
+  ItemDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveItem.UC_CODE}itemDoesNotExist`;
+      this.message = "An item is not part of this shopping list";
+    }
+  },
+
+  ShoppingListDaoUpdateFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveItem.UC_CODE}shoppingListDaoUpdateFailed`;
+      this.message = "Update shopping list by shopping list DAO failed.";
+      this.status = 500;
     }
   },
 };

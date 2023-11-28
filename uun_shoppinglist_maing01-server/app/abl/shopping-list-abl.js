@@ -450,7 +450,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async removeItem(awid, dtoIn) {
+  async removeItem(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -463,9 +463,57 @@ class ShoppingListAbl {
       Errors.RemoveItem.InvalidDtoIn
     );
 
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.RemoveItem.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
+      if (!isOwner && !isMember) {
+        throw new Errors.RemoveItem.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    // DAO update
+    let { itemList } = shoppingList;
+    let itemIndex = shoppingList.itemList.findIndex((currentItem) => currentItem.id.equals(dtoIn.itemId));
+    if (itemIndex === -1) {
+      throw new Errors.RemoveItem.ItemDoesNotExist(
+        { uuAppErrorMap },
+        { shoppingListId: dtoIn.id, itemId: dtoIn.itemId }
+      );
+    }
+    itemList.splice(itemIndex, 1);
+
+    try {
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+        itemList,
+      };
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.RemoveItem.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      itemListCount: shoppingList.itemList.length,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }
