@@ -8,6 +8,8 @@ const Warnings = require("../api/warnings/shopping-list-warning.js");
 
 const EXECUTIVES_PROFILE = "Executives";
 
+const MAX_ITEMS = 30;
+
 class ShoppingListAbl {
   constructor() {
     this.validator = Validator.load();
@@ -414,10 +416,15 @@ class ShoppingListAbl {
       }
     }
 
-    // DAO update
     let { item } = dtoIn;
     let { itemList } = shoppingList;
 
+    // verify the number of items
+    if (itemList.length >= MAX_ITEMS) {
+      throw new Errors.AddItem.MaximumNumberOfItems({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // DAO update
     item.id = new ObjectId();
     itemList.push(item);
 

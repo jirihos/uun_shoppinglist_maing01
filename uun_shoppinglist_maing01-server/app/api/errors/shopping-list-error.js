@@ -281,6 +281,14 @@ const AddItem = {
     }
   },
 
+  MaximumNumberOfItems: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}maximumNumberOfItems`;
+      this.message = "The shopping list has reached the maximum number of items.";
+    }
+  },
+
   ShoppingListDaoUpdateFailed: class extends ShoppinglistMainUseCaseError {
     constructor() {
       super(...arguments);
