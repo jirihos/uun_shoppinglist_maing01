@@ -247,6 +247,48 @@ const AddItem = {
       this.message = "DtoIn is not valid.";
     }
   },
+
+  UnitMissing: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}unitMissing`;
+      this.message = "Unit is required when you use amount.";
+    }
+  },
+
+  CurrencyMissing: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}currencyMissing`;
+      this.message = "Currency is required when you use totalPrice.";
+    }
+  },
+
+  ShoppingListDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping list does not exist.";
+    }
+  },
+
+  UserNotAuthorized: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}userNotAuthorized`;
+      this.message = "User is not allowed to add item to this shopping list.";
+      this.status = 403;
+    }
+  },
+
+  ShoppingListDaoUpdateFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}shoppingListDaoUpdateFailed`;
+      this.message = "Update shopping list by shopping list DAO failed.";
+      this.status = 500;
+    }
+  },
 };
 
 const RemoveItem = {

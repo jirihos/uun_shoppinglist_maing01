@@ -2,6 +2,7 @@
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory, ObjectStoreError } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
+const { ObjectId } = require("bson");
 const Errors = require("../api/errors/shopping-list-error.js");
 const Warnings = require("../api/warnings/shopping-list-warning.js");
 
@@ -372,7 +373,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async addItem(awid, dtoIn) {
+  async addItem(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     // validation of dtoIn
@@ -388,9 +389,63 @@ class ShoppingListAbl {
     // default values
     dtoIn.item.completed ??= false;
 
+    // custom validation
+    if (dtoIn.item.amount !== undefined && dtoIn.item.unit === undefined) {
+      throw new Errors.AddItem.UnitMissing({ uuAppErrorMap });
+    }
+    if (dtoIn.item.totalPrice !== undefined && dtoIn.item.currency === undefined) {
+      throw new Errors.AddItem.CurrencyMissing({ uuAppErrorMap });
+    }
+
+    // load shopping list
+    let shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.AddItem.ShoppingListDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    // check permissions
+    let uuIdentity = session.getIdentity().getUuIdentity();
+    let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
+    if (!isExecutive) {
+      let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
+      let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
+      if (!isOwner && !isMember) {
+        throw new Errors.AddItem.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      }
+    }
+
+    // DAO update
+    let { item } = dtoIn;
+    let { itemList } = shoppingList;
+
+    item.id = new ObjectId();
+    itemList.push(item);
+
+    try {
+      let updateObject = {
+        id: shoppingList.id,
+        awid: shoppingList.awid,
+        itemList,
+      };
+
+      shoppingList = await this.dao.update(updateObject);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.AddItem.ShoppingListDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
     // prepare and return dtoOut
-    let dtoOut = { ...dtoIn };
-    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    let itemOut = shoppingList.itemList.find((currentItem) => item.id.equals(currentItem.id));
+    let dtoOut = {
+      id: shoppingList.id,
+      awid: shoppingList.awid,
+      sys: shoppingList.sys,
+      item: itemOut,
+      itemListCount: shoppingList.itemList.length,
+      uuAppErrorMap,
+    };
 
     return dtoOut;
   }
