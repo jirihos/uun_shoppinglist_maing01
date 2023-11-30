@@ -63,7 +63,7 @@ const DetailPageLayout = createVisualComponent({
           title = lsi.notFoundTitle;
           body = lsi.notFound;
           break;
-        case "uun-shoppinglist-main/shoppingList/create/userNotAuthorized":
+        case "uun-shoppinglist-main/shoppingList/get/userNotAuthorized":
           title = lsi.noAccessTitle;
           body = lsi.noAccess;
           break;

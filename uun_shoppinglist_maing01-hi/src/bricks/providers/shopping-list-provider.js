@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { PropTypes, createComponent, useMemo, useState, useDataObject } from "uu5g05";
+import { PropTypes, createComponent, useMemo, useState, useDataObject, useSession } from "uu5g05";
 import Config from "./config/config.js";
 import Context from "../../contexts/shopping-list-context.js";
 import Calls from "calls";
@@ -29,6 +29,8 @@ const ShoppingListProvider = createComponent({
   render(props) {
     //@@viewOn:private
     const { shoppingListId, children } = props;
+
+    const { identity } = useSession();
 
     const { state, data, errorData, handlerMap } = useDataObject({
       handlerMap: {
@@ -147,8 +149,11 @@ const ShoppingListProvider = createComponent({
         return handlerMap.addMember(uuIdentity);
       },
 
-      removeMember: (uuIdentity) => {
-        return handlerMap.removeMember(uuIdentity);
+      removeMember: async (uuIdentity) => {
+        await handlerMap.removeMember(uuIdentity);
+        if (uuIdentity === identity.uuIdentity) {
+          await handlerMap.load();
+        }
       },
     };
     //@@viewOff:interface

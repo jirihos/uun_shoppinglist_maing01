@@ -89,7 +89,7 @@ class ShoppingListAbl {
       let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
       let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
       if (!isOwner && !isMember) {
-        throw new Errors.Create.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+        throw new Errors.Get.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
       }
     }
 
