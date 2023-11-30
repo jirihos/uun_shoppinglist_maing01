@@ -165,6 +165,14 @@ const AddMember = {
     }
   },
 
+  ShoppingListIsArchived: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddMember.UC_CODE}shoppingListIsArchived`;
+      this.message = "Cannot add a member to an archived shopping list.";
+    }
+  },
+
   CannotAddOwnerAsMember: class extends ShoppinglistMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -216,6 +224,14 @@ const RemoveMember = {
       this.code = `${RemoveMember.UC_CODE}userNotAuthorized`;
       this.message = "User is not allowed to remove a member from this shopping list.";
       this.status = 403;
+    }
+  },
+
+  ShoppingListIsArchived: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveMember.UC_CODE}shoppingListIsArchived`;
+      this.message = "Cannot remove a member from an archived shopping list.";
     }
   },
 
@@ -281,6 +297,14 @@ const AddItem = {
     }
   },
 
+  ShoppingListIsArchived: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${AddItem.UC_CODE}shoppingListIsArchived`;
+      this.message = "Cannot add an item to an archived shopping list.";
+    }
+  },
+
   MaximumNumberOfItems: class extends ShoppinglistMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -327,6 +351,14 @@ const RemoveItem = {
     }
   },
 
+  ShoppingListIsArchived: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${RemoveItem.UC_CODE}shoppingListIsArchived`;
+      this.message = "Cannot remove an item from an archived shopping list.";
+    }
+  },
+
   ItemDoesNotExist: class extends ShoppinglistMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -370,6 +402,14 @@ const SetItemCompleted = {
       this.code = `${SetItemCompleted.UC_CODE}userNotAuthorized`;
       this.message = "User is not allowed to change completed state of an item in this shopping list.";
       this.status = 403;
+    }
+  },
+
+  ShoppingListIsArchived: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetItemCompleted.UC_CODE}shoppingListIsArchived`;
+      this.message = "Cannot change completed state of an item in an archived shopping list.";
     }
   },
 

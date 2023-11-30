@@ -255,6 +255,11 @@ class ShoppingListAbl {
       }
     }
 
+    // check archived state
+    if (shoppingList.archived) {
+      throw new Errors.AddMember.ShoppingListIsArchived({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
     let { memberUuIdentity } = dtoIn;
     let { memberUuIdentityList } = shoppingList;
 
@@ -333,6 +338,11 @@ class ShoppingListAbl {
       if (!isOwner && !isMemberLeaving) {
         throw new Errors.RemoveMember.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
       }
+    }
+
+    // check archived state
+    if (shoppingList.archived) {
+      throw new Errors.RemoveMember.ShoppingListIsArchived({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
     let { memberUuIdentity } = dtoIn;
@@ -418,6 +428,11 @@ class ShoppingListAbl {
       }
     }
 
+    // check archived state
+    if (shoppingList.archived) {
+      throw new Errors.AddItem.ShoppingListIsArchived({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
     let { item } = dtoIn;
     let { itemList } = shoppingList;
 
@@ -489,6 +504,11 @@ class ShoppingListAbl {
       }
     }
 
+    // check archived state
+    if (shoppingList.archived) {
+      throw new Errors.RemoveItem.ShoppingListIsArchived({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
     // DAO update
     let { itemList } = shoppingList;
     let itemIndex = itemList.findIndex((currentItem) => currentItem.id.equals(dtoIn.itemId));
@@ -555,6 +575,11 @@ class ShoppingListAbl {
       if (!isOwner && !isMember) {
         throw new Errors.SetItemCompleted.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
       }
+    }
+
+    // check archived state
+    if (shoppingList.archived) {
+      throw new Errors.SetItemCompleted.ShoppingListIsArchived({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
     // DAO update
