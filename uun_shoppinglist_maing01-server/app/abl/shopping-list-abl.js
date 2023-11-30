@@ -328,7 +328,9 @@ class ShoppingListAbl {
     let isExecutive = authorizationResult.getAuthorizedProfiles().includes(EXECUTIVES_PROFILE);
     if (!isExecutive) {
       let isOwner = shoppingList.ownerUuIdentity === uuIdentity;
-      if (!isOwner) {
+      let isMember = shoppingList.memberUuIdentityList.includes(uuIdentity);
+      let isMemberLeaving = isMember && dtoIn.memberUuIdentity === uuIdentity;
+      if (!isOwner && !isMemberLeaving) {
         throw new Errors.RemoveMember.UserNotAuthorized({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
       }
     }
