@@ -7,6 +7,13 @@ import Plus4U5 from "uu_plus4u5g02";
 //     "callsBaseUri": "https://uuapp-dev.plus4u.net/vnd-app/awid"
 //   }
 
+// ensure delay for better visual experience
+async function withDelay(callPromise) {
+  const timerPromise = new Promise((resolve) => setTimeout(resolve, 500));
+  const values = await Promise.all([callPromise, timerPromise]);
+  return values[0];
+}
+
 const Calls = {
   async call(method, url, dtoIn, clientOptions) {
     const response = await Plus4U5.Utils.AppClient[method](url, dtoIn, clientOptions);
@@ -16,52 +23,52 @@ const Calls = {
   ShoppingList: {
     list(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/list");
-      return Calls.call("get", commandUri, dtoIn);
+      return withDelay(Calls.call("get", commandUri, dtoIn));
     },
 
     get(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/get");
-      return Calls.call("get", commandUri, dtoIn);
+      return withDelay(Calls.call("get", commandUri, dtoIn));
     },
 
     create(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/create");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     update(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/update");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     addMember(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/addMember");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     removeMember(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/removeMember");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     addItem(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/addItem");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     removeItem(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/removeItem");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     setItemCompleted(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/setItemCompleted");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
 
     delete(dtoIn) {
       const commandUri = Calls.getCommandUri("shoppingList/delete");
-      return Calls.call("post", commandUri, dtoIn);
+      return withDelay(Calls.call("post", commandUri, dtoIn));
     },
   },
 
