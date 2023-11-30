@@ -45,7 +45,8 @@
     "notFoundTitle": "Nenalezeno",
     "notFound": "Nákupní seznam nebyl nalezen.",
     "noAccessTitle": "Nemáte oprávnění",
-    "noAccess": "Nejste vlastníkem nebo členem nákupního seznamu."
+    "noAccess": "Nejste vlastníkem nebo členem nákupního seznamu.",
+    "genericErrorTitle": "Nastala chyba"
   },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Včetně splněných",
@@ -84,6 +85,9 @@
   "UunShoppinglist.Bricks.Modals.AddMemberModal": {
     "modalTitle": "Přidat člena",
     "personSelectLabel": "Plus4U uživatel"
+  },
+  "UunShoppinglist.Bricks.Layouts.HomePageLayout": {
+    "errorTitle": "Nepodařilo se načíst nákupní seznamy"
   },
   "UunShoppinglist.Bricks.HomeToolbar": {
     "createShoppingListBtn": "Vytvořit nákupní seznam",

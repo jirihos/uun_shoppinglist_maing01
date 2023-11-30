@@ -1,0 +1,55 @@
+{
+  "id": "c3a2faebc331484ba8477923",
+  "awid": "22222222222222222222222222222222",
+  "sys": {
+    "cts": "2022-01-14 10:50:21.637Z",
+    "mts": "2022-01-14 10:50:42.542Z",
+    "rev": 1
+  },
+  "name": "První nákupní seznam",
+  "archived": false,
+  "ownerUuIdentity": "3987-144-5699-0000",
+  "memberUuIdentityList": ["784-3673-7253-0000", "9479-7016-4601-0000"],
+  "itemList": [
+    {
+      "id": "204fb43da61c4df7b1ec90b6",
+      "text": "Jogurty",
+      "amount": 2,
+      "unit": "ks",
+      "totalPrice": 56,
+      "currency": "Kč",
+      "completed": false
+    },
+    {
+      "id": "2d5a7486d64845288ad4e96c",
+      "text": "Rýže",
+      "totalPrice": 70,
+      "currency": "Kč",
+      "completed": true
+    },
+    {
+      "id": "528363909e3549f391c8282a",
+      "text": "Pomeranče",
+      "amount": 2,
+      "unit": "ks",
+      "totalPrice": 24,
+      "currency": "Kč",
+      "completed": false
+    },
+    {
+      "id": "22365448b24b4d40ba569bb6",
+      "text": "Čokoláda",
+      "completed": false
+    },
+    {
+      "id": "5ef4fccc2eb94888a6aeb03c",
+      "text": "Limonáda",
+      "amount": 1,
+      "unit": "ks",
+      "totalPrice": 30,
+      "currency": "Kč",
+      "completed": true
+    }
+  ],
+  "uuAppErrorMap": {}
+}

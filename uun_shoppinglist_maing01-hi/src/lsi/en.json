@@ -45,7 +45,8 @@
     "notFoundTitle": "Not found",
     "notFound": "A shopping list was not found.",
     "noAccessTitle": "No access",
-    "noAccess": "You are not an owner or a member of this shopping list."
+    "noAccess": "You are not an owner or a member of this shopping list.",
+    "genericErrorTitle": "An error occurred"
   },
   "UunShoppinglist.Bricks.ShoppingList": {
     "includeCompleted": "Include completed",
@@ -84,6 +85,9 @@
   "UunShoppinglist.Bricks.Modals.AddMemberModal": {
     "modalTitle": "Add a member",
     "personSelectLabel": "Plus4U user"
+  },
+  "UunShoppinglist.Bricks.Layouts.HomePageLayout": {
+    "errorTitle": "Failed to load shopping lists"
   },
   "UunShoppinglist.Bricks.HomeToolbar": {
     "createShoppingListBtn": "Create a shopping list",

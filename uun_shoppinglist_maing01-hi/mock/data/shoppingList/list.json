@@ -1,0 +1,66 @@
+{
+  "itemList": [
+    {
+      "id": "c3a2faebc331484ba8477923",
+      "awid": "22222222222222222222222222222222",
+      "sys": {
+        "cts": "2022-01-14 10:50:21.637Z",
+        "mts": "2022-01-14 10:50:42.542Z",
+        "rev": 1
+      },
+      "name": "První nákupní seznam",
+      "archived": false,
+      "ownerUuIdentity": "3987-144-5699-0000",
+      "memberUuIdentityList": ["784-3673-7253-0000", "9479-7016-4601-0000"],
+      "itemListCount": 5
+    },
+    {
+      "id": "169155d9c45a4262b5052575",
+      "awid": "22222222222222222222222222222222",
+      "sys": {
+        "cts": "2022-01-14 10:50:21.637Z",
+        "mts": "2022-01-14 10:50:42.542Z",
+        "rev": 1
+      },
+      "name": "Druhý nákupní seznam",
+      "archived": false,
+      "ownerUuIdentity": "784-3673-7253-0000",
+      "memberUuIdentityList": ["9479-7016-4601-0000", "3987-144-5699-0000"],
+      "itemListCount": 2
+    },
+    {
+      "id": "95fe2806959744c78dab6f6b",
+      "awid": "22222222222222222222222222222222",
+      "sys": {
+        "cts": "2022-01-14 10:50:21.637Z",
+        "mts": "2022-01-14 10:50:42.542Z",
+        "rev": 1
+      },
+      "name": "Třetí nákupní seznam",
+      "archived": false,
+      "ownerUuIdentity": "9479-7016-4601-0000",
+      "memberUuIdentityList": ["784-3673-7253-0000"],
+      "itemListCount": 4
+    },
+    {
+      "id": "f30f25392ded469d9cc147f2",
+      "awid": "22222222222222222222222222222222",
+      "sys": {
+        "cts": "2022-01-14 10:50:21.637Z",
+        "mts": "2022-01-14 10:50:42.542Z",
+        "rev": 1
+      },
+      "name": "Archivovaný nákupní seznam",
+      "archived": true,
+      "ownerUuIdentity": "3987-144-5699-0000",
+      "memberUuIdentityList": ["784-3673-7253-0000", "9479-7016-4601-0000"],
+      "itemListCount": 2
+    }
+  ],
+  "pageInfo": {
+    "pageIndex": 0,
+    "pageSize": 1000,
+    "total": 4
+  },
+  "uuAppErrorMap": {}
+}

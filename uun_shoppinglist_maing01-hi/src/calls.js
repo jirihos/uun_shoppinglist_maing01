@@ -13,11 +13,57 @@ const Calls = {
     return response.data;
   },
 
-  // // example for mock calls
-  // loadDemoContent(dtoIn) {
-  //   const commandUri = Calls.getCommandUri("loadDemoContent");
-  //   return Calls.call("get", commandUri, dtoIn);
-  // },
+  ShoppingList: {
+    list(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/list");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+
+    get(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/get");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+
+    create(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/create");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    update(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/update");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    addMember(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/addMember");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    removeMember(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/removeMember");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    addItem(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/addItem");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    removeItem(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/removeItem");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    setItemCompleted(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/setItemCompleted");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    delete(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/delete");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+  },
 
   loadIdentityProfiles() {
     const commandUri = Calls.getCommandUri("sys/uuAppWorkspace/initUve");

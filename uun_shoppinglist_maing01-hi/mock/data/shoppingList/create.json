@@ -1,0 +1,15 @@
+{
+  "id": "4eafcba65fda450eb1046cc2",
+  "awid": "22222222222222222222222222222222",
+  "sys": {
+    "cts": "2022-01-14 10:50:21.637Z",
+    "mts": "2022-01-14 10:50:42.542Z",
+    "rev": 0
+  },
+  "name": "Nový nákupní seznam",
+  "archived": false,
+  "ownerUuIdentity": "3987-144-5699-0000",
+  "memberUuIdentityList": [],
+  "itemList": [],
+  "uuAppErrorMap": {}
+}

@@ -1,8 +1,12 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils } from "uu5g05";
+import { createVisualComponent, useLsi, Utils } from "uu5g05";
+import { Pending } from "uu5g05-elements";
 import Config from "./config/config.js";
 import HomeToolbar from "../home-toolbar.js";
 import ShoppingListsGrid from "../shopping-lists-grid.js";
+import { useShoppingLists } from "../../contexts/shopping-lists-context.js";
+import Error from "../error.js";
+import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -40,6 +44,8 @@ const HomePageLayout = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
+    const lsi = useLsi(importLsi, [HomePageLayout.uu5Tag]);
+    const { state, error } = useShoppingLists();
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -52,7 +58,14 @@ const HomePageLayout = createVisualComponent({
     return currentNestingLevel ? (
       <div {...attrs}>
         <HomeToolbar />
-        <ShoppingListsGrid className={Css.grid()} />
+
+        {(state === "error" || state === "errorNoData") && <Error title={lsi.errorTitle}>{error.trace}</Error>}
+
+        {(state === "pending" || state === "pendingNoData" || state === "itemPending" || state === "readyNoData") && (
+          <Pending size="max" />
+        )}
+
+        {state === "ready" && <ShoppingListsGrid className={Css.grid()} />}
       </div>
     ) : null;
     //@@viewOff:render

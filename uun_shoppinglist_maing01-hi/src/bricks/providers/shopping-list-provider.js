@@ -1,7 +1,8 @@
 //@@viewOn:imports
-import { PropTypes, createComponent, Utils, useMemo, useSession, useState } from "uu5g05";
+import { PropTypes, createComponent, useMemo, useState, useDataObject } from "uu5g05";
 import Config from "./config/config.js";
 import Context from "../../contexts/shopping-list-context.js";
+import Calls from "calls";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -29,57 +30,96 @@ const ShoppingListProvider = createComponent({
     //@@viewOn:private
     const { shoppingListId, children } = props;
 
-    const [state, setState] = useState("ready");
-    const [errorData, setErrorData] = useState();
-    const { identity } = useSession();
+    const { state, data, errorData, handlerMap } = useDataObject({
+      handlerMap: {
+        load: () => {
+          return Calls.ShoppingList.get({ id: shoppingListId });
+        },
 
-    const [shoppingList, setShoppingList] = useState(() => {
-      // find a shopping list by id
-      let initialShoppingList = document.initialShoppingLists.find(
-        (shoppingList) => shoppingList.id === shoppingListId
-      );
+        rename: async (name) => {
+          const result = await Calls.ShoppingList.update({ id: shoppingListId, name });
+          delete result.archived;
+          return (currentData) => ({ ...currentData, ...result });
+        },
 
-      if (initialShoppingList) {
-        // make a deep copy of initialShoppingList otherwise itemList is remembered when switching routes
-        return JSON.parse(JSON.stringify(initialShoppingList));
-      } else {
-        // simulate errors from calls
-        setState("error");
-        setErrorData({ code: "shoppingListNotFound" });
-        return undefined;
-      }
+        addItem: async (item) => {
+          const result = await Calls.ShoppingList.addItem({ id: shoppingListId, item });
+          return (currentData) => {
+            currentData.itemList.push(result.item);
+
+            delete result.item;
+            return { ...currentData, ...result };
+          };
+        },
+
+        setItemCompleted: async (itemId, completed) => {
+          const result = await Calls.ShoppingList.setItemCompleted({ id: shoppingListId, itemId, completed });
+          return (currentData) => {
+            let item = currentData.itemList.find((item) => item.id === result.itemId);
+            item.completed = result.completed;
+
+            delete result.itemId;
+            delete result.completed;
+            return { ...currentData, ...result };
+          };
+        },
+
+        removeItem: async (itemId) => {
+          const result = await Calls.ShoppingList.removeItem({ id: shoppingListId, itemId });
+          return (currentData) => {
+            let index = currentData.itemList.findIndex((item) => item.id === itemId);
+            if (index !== -1) {
+              currentData.itemList.splice(index, 1);
+            }
+            return { ...currentData, ...result };
+          };
+        },
+
+        addMember: async (memberUuIdentity) => {
+          const result = await Calls.ShoppingList.addMember({ id: shoppingListId, memberUuIdentity });
+          return (currentData) => ({ ...currentData, ...result });
+        },
+
+        removeMember: async (memberUuIdentity) => {
+          const result = await Calls.ShoppingList.removeMember({ id: shoppingListId, memberUuIdentity });
+          return (currentData) => ({ ...currentData, ...result });
+        },
+      },
     });
-    const [includeCompleted, setIncludeCompleted] = useState(shoppingList?.archived || false);
+
+    const [includeCompleted, setIncludeCompleted] = useState(data?.archived || false);
 
     // filter items based on includeCompleted
     let filteredShoppingList = useMemo(() => {
-      if (!includeCompleted && shoppingList) {
-        let currentShoppingList = { ...shoppingList };
+      if (!includeCompleted && data) {
+        let currentShoppingList = { ...data };
         currentShoppingList.itemList = currentShoppingList.itemList.filter((item) => {
           return !item.completed;
         });
         return currentShoppingList;
       } else {
-        return shoppingList;
+        return data;
       }
-    }, [shoppingList, includeCompleted]);
+    }, [data, includeCompleted]);
 
-    // simulate errors from calls
-    if (
-      shoppingList &&
-      state === "ready" &&
-      shoppingList.ownerUuIdentity !== identity.uuIdentity &&
-      !shoppingList.memberUuIdentityList.includes(identity.uuIdentity)
-    ) {
-      setState("error");
-      setErrorData({ code: "shoppingListNoAccess" });
-    }
+    let error = useMemo(() => {
+      let uuAppErrorMap = errorData?.data?.uuAppErrorMap;
+      if (uuAppErrorMap) {
+        for (const [key, value] of Object.entries(uuAppErrorMap)) {
+          if (value.type === "error") {
+            value.code = key;
+            return value;
+          }
+        }
+      }
+      return null;
+    }, [errorData]);
     //@@viewOff:private
 
     //@@viewOn:interface
     const contextValue = {
       state,
-      errorData,
+      error,
       filteredShoppingList,
       includeCompleted,
 
@@ -88,58 +128,27 @@ const ShoppingListProvider = createComponent({
       },
 
       rename: (name) => {
-        setShoppingList(({ ...currentShoppingList }) => {
-          currentShoppingList.name = name;
-          return currentShoppingList;
-        });
+        return handlerMap.rename(name);
       },
 
       addItem: (item) => {
-        item.id = Utils.String.generateId();
-        setShoppingList(({ ...currentShoppingList }) => {
-          currentShoppingList.itemList.push(item);
-          return currentShoppingList;
-        });
+        return handlerMap.addItem(item);
       },
 
       setCompleted: (itemId, completed) => {
-        setShoppingList(({ ...currentShoppingList }) => {
-          let index = currentShoppingList.itemList.findIndex((item) => item.id === itemId);
-          currentShoppingList.itemList[index].completed = completed;
-          return currentShoppingList;
-        });
+        return handlerMap.setItemCompleted(itemId, completed);
       },
 
       deleteItem: (itemId) => {
-        setShoppingList(({ ...currentShoppingList }) => {
-          let index = currentShoppingList.itemList.findIndex((item) => item.id === itemId);
-          if (index !== -1) {
-            currentShoppingList.itemList.splice(index, 1);
-          }
-          return currentShoppingList;
-        });
+        return handlerMap.removeItem(itemId);
       },
 
       addMember: (uuIdentity) => {
-        if (shoppingList.memberUuIdentityList.includes(uuIdentity) || shoppingList.ownerUuIdentity === uuIdentity) {
-          return;
-        }
-        setShoppingList(({ ...currentShoppingList }) => {
-          currentShoppingList.memberUuIdentityList.push(uuIdentity);
-          return currentShoppingList;
-        });
+        return handlerMap.addMember(uuIdentity);
       },
 
       removeMember: (uuIdentity) => {
-        setShoppingList(({ ...currentShoppingList }) => {
-          let index = currentShoppingList.memberUuIdentityList.findIndex(
-            (memberUuIdentity) => memberUuIdentity === uuIdentity
-          );
-          if (index !== -1) {
-            currentShoppingList.memberUuIdentityList.splice(index, 1);
-          }
-          return currentShoppingList;
-        });
+        return handlerMap.removeMember(uuIdentity);
       },
     };
     //@@viewOff:interface

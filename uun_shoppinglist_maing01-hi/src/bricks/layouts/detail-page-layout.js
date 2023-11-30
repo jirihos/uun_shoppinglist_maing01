@@ -1,6 +1,6 @@
 //@@viewOn:imports
 import { createVisualComponent, Utils, useLsi, useScreenSize, PropTypes } from "uu5g05";
-import { Grid, Line } from "uu5g05-elements";
+import { Grid, Line, Pending } from "uu5g05-elements";
 import Config from "./config/config.js";
 import ShoppingList from "../shopping-list.js";
 import MemberList from "../member-list.js";
@@ -49,10 +49,36 @@ const DetailPageLayout = createVisualComponent({
     const { routeBarHeight } = props;
 
     const lsi = useLsi(importLsi, [DetailPageLayout.uu5Tag]);
-    const { state, errorData } = useShoppingList();
+    const { state, error } = useShoppingList();
 
     const [screenSize] = useScreenSize();
     const desktopLayout = ["l", "xl"].includes(screenSize);
+
+    function getError() {
+      let title;
+      let body;
+
+      switch (error.code) {
+        case "uun-shoppinglist-main/shoppingList/get/shoppingListDoesNotExist":
+          title = lsi.notFoundTitle;
+          body = lsi.notFound;
+          break;
+        case "uun-shoppinglist-main/shoppingList/create/userNotAuthorized":
+          title = lsi.noAccessTitle;
+          body = lsi.noAccess;
+          break;
+        default:
+          title = lsi.genericErrorTitle;
+          body = error.trace;
+          break;
+      }
+
+      return (
+        <Error title={title} className={Css.noTopMargin()}>
+          {body}
+        </Error>
+      );
+    }
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -64,17 +90,9 @@ const DetailPageLayout = createVisualComponent({
 
     return currentNestingLevel ? (
       <div {...attrs}>
-        {state === "error" && errorData.code === "shoppingListNotFound" && (
-          <Error title={lsi.notFoundTitle} className={Css.noTopMargin()}>
-            {lsi.notFound}
-          </Error>
-        )}
+        {(state === "error" || state === "errorNoData" || state === "readyNoData") && getError()}
 
-        {state === "error" && errorData.code === "shoppingListNoAccess" && (
-          <Error title={lsi.noAccessTitle} className={Css.noTopMargin()}>
-            {lsi.noAccess}
-          </Error>
-        )}
+        {(state === "pending" || state === "pendingNoData") && <Pending size="max" />}
 
         {state === "ready" && (
           <Grid

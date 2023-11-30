@@ -1,7 +1,8 @@
 //@@viewOn:imports
-import { createComponent, useState, useMemo, useSession, Utils } from "uu5g05";
+import { createComponent, useState, useMemo, useDataList } from "uu5g05";
 import Config from "./config/config.js";
 import Context from "../../contexts/shopping-lists-context.js";
+import Calls from "calls";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -27,53 +28,84 @@ const ShoppingListsProvider = createComponent({
     //@@viewOn:private
     const { children } = props;
 
-    const [state] = useState("ready");
-    const [errorData] = useState();
-    const { identity } = useSession();
+    const { state, data, errorData, handlerMap } = useDataList({
+      pageSize: 1000,
+      handlerMap: {
+        load: (dtoIn) => {
+          return Calls.ShoppingList.list(dtoIn);
+        },
 
-    const [shoppingLists, setShoppingLists] = useState(() => {
-      // make a deep copy of initialShoppingLists otherwise archived state is remembered when switching routes
-      let initialShoppingLists = JSON.parse(JSON.stringify(document.initialShoppingLists));
+        create: async (dtoIn) => {
+          const result = await Calls.ShoppingList.create(dtoIn);
+          result.itemListCount = result.itemList.length;
+          delete result.itemList;
+          return result;
+        },
+      },
+      itemHandlerMap: {
+        archive: async (dtoIn) => {
+          const result = await Calls.ShoppingList.update(dtoIn);
+          delete result.name;
+          return (currentData) => ({ ...currentData, ...result });
+        },
 
-      // filter shopping lists where the user is owner or member
-      return initialShoppingLists.filter((shoppingList) => {
-        return (
-          shoppingList.ownerUuIdentity === identity.uuIdentity ||
-          shoppingList.memberUuIdentityList.includes(identity.uuIdentity)
-        );
-      });
+        delete: async (dtoIn) => {
+          return Calls.ShoppingList.delete(dtoIn);
+        },
+      },
     });
     const [includeArchived, setIncludeArchived] = useState(false);
 
-    // sort shopping lists based archived state
+    // sort shopping lists based on archived state
     let sortedShoppingLists = useMemo(() => {
-      if (shoppingLists) {
-        return [...shoppingLists].sort((a, b) => {
-          if (a.archived === b.archived) {
+      if (data) {
+        return [...data].sort((a, b) => {
+          if (a.data.archived === b.data.archived) {
             return 0;
-          } else if (a.archived) {
+          } else if (a.data.archived) {
             return 1;
           } else {
             return -1;
           }
         });
       } else {
-        return shoppingLists;
+        return data;
       }
-    }, [shoppingLists]);
+    }, [data]);
 
     // filter shopping lists based on includeArchived state
     let filteredShoppingLists = useMemo(() => {
-      if (!includeArchived && sortedShoppingLists) {
-        return sortedShoppingLists.filter((shoppingList) => !shoppingList.archived);
-      } else {
-        return sortedShoppingLists;
+      if (!sortedShoppingLists) {
+        return undefined;
       }
+
+      let currentShoppingLists = sortedShoppingLists.filter((dataObject) => {
+        if (!includeArchived && dataObject.data.archived) {
+          return false;
+        }
+
+        return dataObject !== undefined;
+      });
+
+      return currentShoppingLists.map((dataObject) => dataObject.data);
     }, [sortedShoppingLists, includeArchived]);
+
+    let error = useMemo(() => {
+      let uuAppErrorMap = errorData?.data?.uuAppErrorMap;
+      if (uuAppErrorMap) {
+        for (const [key, value] of Object.entries(uuAppErrorMap)) {
+          if (value.type === "error") {
+            value.code = key;
+            return value;
+          }
+        }
+      }
+      return null;
+    }, [errorData]);
 
     const contextValue = {
       state,
-      errorData,
+      error,
       filteredShoppingLists,
       includeArchived,
 
@@ -82,37 +114,17 @@ const ShoppingListsProvider = createComponent({
       },
 
       createShoppingList: (name) => {
-        setShoppingLists(([...currentShoppingLists]) => {
-          currentShoppingLists.push({
-            id: Utils.String.generateId(),
-            name,
-            archived: false,
-            ownerUuIdentity: identity.uuIdentity,
-            memberUuIdentityList: [],
-            itemList: [],
-          });
-          return currentShoppingLists;
-        });
+        return handlerMap.create({ name });
       },
 
       archiveShoppingList: (listId) => {
-        setShoppingLists(([...currentShoppingLists]) => {
-          let shoppingList = currentShoppingLists.find((shoppingList) => shoppingList.id === listId);
-          if (shoppingList) {
-            shoppingList.archived = true;
-          }
-          return currentShoppingLists;
-        });
+        let shoppingList = data.find((dataObject) => dataObject && dataObject.data.id === listId);
+        return shoppingList.handlerMap.archive({ archived: true });
       },
 
       deleteShoppingList: (listId) => {
-        setShoppingLists(([...currentShoppingLists]) => {
-          let index = currentShoppingLists.findIndex((shoppingList) => shoppingList.id === listId);
-          if (index !== -1) {
-            currentShoppingLists.splice(index, 1);
-          }
-          return currentShoppingLists;
-        });
+        let shoppingList = data.find((dataObject) => dataObject && dataObject.data.id === listId);
+        return shoppingList.handlerMap.delete();
       },
     };
     //@@viewOff:private
