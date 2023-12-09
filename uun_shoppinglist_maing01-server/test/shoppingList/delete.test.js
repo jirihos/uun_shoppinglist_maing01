@@ -15,6 +15,7 @@ afterEach(async () => {
 
 describe("uuCmd shoppingList/delete", () => {
   test("HDS - own shopping list (Authenticated)", async () => {
+    expect.assertions(3);
     let session = await TestHelper.login("Authenticated");
     let uuIdentity = session.getIdentity().getUuIdentity();
     await insertMock(uuIdentity);
@@ -36,6 +37,7 @@ describe("uuCmd shoppingList/delete", () => {
   });
 
   test("HDS - else's shopping list (Executives)", async () => {
+    expect.assertions(3);
     await TestHelper.login("Executives");
     await insertMock("1-1");
 
@@ -56,6 +58,7 @@ describe("uuCmd shoppingList/delete", () => {
   });
 
   test("HDS - own shopping list (Authenticated)", async () => {
+    expect.assertions(4);
     let session = await TestHelper.login("Authenticated");
     let uuIdentity = session.getIdentity().getUuIdentity();
     await insertMock(uuIdentity);
