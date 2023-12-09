@@ -92,7 +92,6 @@ const ShoppingList = createVisualComponent({
             <Uu5Elements.RichIcon
               icon="uugdssvg-svg-product"
               colorScheme="orange"
-              significance="highlighted"
               tooltip={lsi.archived}
               className={Css.archivedIcon()}
             />
