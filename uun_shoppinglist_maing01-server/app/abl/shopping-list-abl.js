@@ -281,7 +281,7 @@ class ShoppingListAbl {
 
     // DAO update
     try {
-      memberUuIdentityList.push(dtoIn.memberUuIdentity);
+      memberUuIdentityList.push(memberUuIdentity);
 
       let updateObject = {
         id: shoppingList.id,
