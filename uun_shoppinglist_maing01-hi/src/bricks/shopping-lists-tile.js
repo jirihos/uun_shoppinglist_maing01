@@ -126,7 +126,6 @@ const ShoppingListsTile = createVisualComponent({
                 <Uu5Elements.RichIcon
                   icon="uugdssvg-svg-product"
                   colorScheme="orange"
-                  significance="highlighted"
                   tooltip={lsi.archived}
                   height={26}
                   className={Css.archivedIcon()}

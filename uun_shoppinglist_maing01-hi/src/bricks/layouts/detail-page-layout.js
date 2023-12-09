@@ -58,7 +58,7 @@ const DetailPageLayout = createVisualComponent({
       let title;
       let body;
 
-      switch (error.code) {
+      switch (error?.code) {
         case "uun-shoppinglist-main/shoppingList/get/shoppingListDoesNotExist":
           title = lsi.notFoundTitle;
           body = lsi.notFound;
@@ -69,7 +69,7 @@ const DetailPageLayout = createVisualComponent({
           break;
         default:
           title = lsi.genericErrorTitle;
-          body = error.trace;
+          body = error?.trace;
           break;
       }
 

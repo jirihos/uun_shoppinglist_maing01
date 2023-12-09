@@ -58,7 +58,9 @@ const ShoppingListProvider = createComponent({
           const result = await Calls.ShoppingList.setItemCompleted({ id: shoppingListId, itemId, completed });
           return (currentData) => {
             let item = currentData.itemList.find((item) => item.id === result.itemId);
-            item.completed = result.completed;
+            if (item) {
+              item.completed = result.completed;
+            }
 
             delete result.itemId;
             delete result.completed;
