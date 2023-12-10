@@ -42,7 +42,7 @@ const RouteBar = createVisualComponent({
 
     const actionList = [
       {
-        component: <DarkModeToggle />,
+        component: DarkModeToggle,
       },
       {
         children: lsi.home,

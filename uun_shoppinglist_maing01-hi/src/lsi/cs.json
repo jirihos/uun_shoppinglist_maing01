@@ -41,6 +41,9 @@
   "UunShoppinglist.Core.RouteBar": {
     "home": "Domů"
   },
+  "UunShoppinglist.Core.DarkModeToggle": {
+    "label": "Tmavý / Světlý režim"
+  },
   "UunShoppinglist.Bricks.Layouts.DetailPageLayout": {
     "notFoundTitle": "Nenalezeno",
     "notFound": "Nákupní seznam nebyl nalezen.",

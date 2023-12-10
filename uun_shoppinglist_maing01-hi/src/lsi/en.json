@@ -41,6 +41,9 @@
   "UunShoppinglist.Core.RouteBar": {
     "home": "Home"
   },
+  "UunShoppinglist.Core.DarkModeToggle": {
+    "label": "Dark / Light mode"
+  },
   "UunShoppinglist.Bricks.Layouts.DetailPageLayout": {
     "notFoundTitle": "Not found",
     "notFound": "A shopping list was not found.",

@@ -1,7 +1,8 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, useAppBackground } from "uu5g05";
+import { createVisualComponent, Utils, useLsi, useAppBackground, PropTypes } from "uu5g05";
 import { Toggle, UuGds } from "uu5g05-elements";
 import Config from "./config/config.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -23,15 +24,21 @@ const DarkModeToggle = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    displayType: PropTypes.string,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    displayType: "button",
+  },
   //@@viewOff:defaultProps
 
   render(props) {
     //@@viewOn:private
+    const { displayType } = props;
+    const lsi = useLsi(importLsi, [DarkModeToggle.uu5Tag]);
     const [background, setBackground] = useAppBackground();
     const darkMode = background === "dark";
 
@@ -55,6 +62,7 @@ const DarkModeToggle = createVisualComponent({
         onChange={handleToggle}
         iconOff="uugdsstencil-weather-moon"
         iconOn="uugdsstencil-weather-sun"
+        label={displayType === "menu-item" ? lsi.label : undefined}
         {...attrs}
       />
     ) : null;
