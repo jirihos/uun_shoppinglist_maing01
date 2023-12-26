@@ -16,7 +16,7 @@ import importLsi from "../../lsi/import-lsi.js";
 const Css = {
   main: (routeBarHeight, desktopLayout) =>
     Config.Css.css({
-      height: routeBarHeight && desktopLayout ? `calc(100% - ${routeBarHeight - 1}px)` : null,
+      height: routeBarHeight && desktopLayout ? `calc(100% - ${routeBarHeight}px)` : null,
       maxWidth: "1920px",
       margin: "auto",
     }),
