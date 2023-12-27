@@ -14,10 +14,7 @@ const DARK_COLOR = UuGds.ColorPalette.getValue(["building", "dark", "mainLighter
 
 //@@viewOn:css
 const Css = {
-  main: () =>
-    Config.Css.css({
-      maxWidth: "1920px",
-    }),
+  main: () => Config.Css.css({}),
 };
 //@@viewOff:css
 

@@ -106,6 +106,24 @@ const ShoppingListProvider = createComponent({
       }
     }, [data, includeCompleted]);
 
+    // count completed and incomplete items
+    const stats = useMemo(() => {
+      let completedCount = 0;
+      let incompleteCount = 0;
+
+      if (data) {
+        data.itemList.forEach((item) => {
+          if (item.completed) {
+            completedCount++;
+          } else {
+            incompleteCount++;
+          }
+        });
+      }
+
+      return { completedCount, incompleteCount };
+    }, [data]);
+
     let error = useMemo(() => {
       let uuAppErrorMap = errorData?.data?.uuAppErrorMap;
       if (uuAppErrorMap) {
@@ -124,6 +142,7 @@ const ShoppingListProvider = createComponent({
     const contextValue = {
       state,
       error,
+      stats,
       filteredShoppingList,
       includeCompleted,
 

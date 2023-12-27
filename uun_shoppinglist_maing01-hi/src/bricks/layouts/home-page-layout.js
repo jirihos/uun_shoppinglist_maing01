@@ -6,6 +6,7 @@ import HomeToolbar from "../home-toolbar.js";
 import ShoppingListsGrid from "../shopping-lists-grid.js";
 import { useShoppingLists } from "../../contexts/shopping-lists-context.js";
 import Error from "../error.js";
+import ShoppingListsChart from "../charts/shopping-lists-chart.js";
 import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -17,6 +18,11 @@ const Css = {
   main: () =>
     Config.Css.css({
       padding: "10px",
+    }),
+  mainContent: () =>
+    Config.Css.css({
+      maxWidth: "1920px",
+      margin: "auto",
     }),
   grid: () =>
     Config.Css.css({
@@ -65,7 +71,12 @@ const HomePageLayout = createVisualComponent({
           <Pending size="max" />
         )}
 
-        {state === "ready" && <ShoppingListsGrid className={Css.grid()} />}
+        {state === "ready" && (
+          <div className={Css.mainContent()}>
+            <ShoppingListsGrid className={Css.grid()} />
+            <ShoppingListsChart className={Config.Css.css({ marginTop: "30px" })} />
+          </div>
+        )}
       </div>
     ) : null;
     //@@viewOff:render

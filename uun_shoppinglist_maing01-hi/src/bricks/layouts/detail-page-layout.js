@@ -6,6 +6,7 @@ import ShoppingList from "../shopping-list.js";
 import MemberList from "../member-list.js";
 import { useShoppingList } from "../../contexts/shopping-list-context.js";
 import Error from "../error.js";
+import CompletedItemsChart from "../charts/completed-items-chart.js";
 import importLsi from "../../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -103,6 +104,7 @@ const DetailPageLayout = createVisualComponent({
           >
             <Grid.Item>
               <ShoppingList />
+              <CompletedItemsChart />
             </Grid.Item>
             <Grid.Item>
               <Line

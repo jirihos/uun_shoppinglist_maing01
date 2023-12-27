@@ -113,5 +113,14 @@
   "UunShoppinglist.Bricks.Modals.NewShoppingListModal": {
     "modalTitle": "New shopping list",
     "nameLabel": "Name"
+  },
+  "UunShoppinglist.Bricks.Charts.CompletedItemsChart": {
+    "completedItemsLabel": "Completed items",
+    "incompleteItemsLabel": "Incomplete items"
+  },
+  "UunShoppinglist.Bricks.Charts.ShoppingListsChart": {
+    "numberOfItems": "Number of items",
+    "active": "Active shopping list",
+    "archived": "Archived shopping list"
   }
 }

@@ -113,5 +113,14 @@
   "UunShoppinglist.Bricks.Modals.NewShoppingListModal": {
     "modalTitle": "Nový nákupní seznam",
     "nameLabel": "Název"
+  },
+  "UunShoppinglist.Bricks.Charts.CompletedItemsChart": {
+    "completedItemsLabel": "Splněné položky",
+    "incompleteItemsLabel": "Nesplněné položky"
+  },
+  "UunShoppinglist.Bricks.Charts.ShoppingListsChart": {
+    "numberOfItems": "Počet položek",
+    "active": "Aktivní nákupní seznam",
+    "archived": "Archivovaný nákupní seznam"
   }
 }
